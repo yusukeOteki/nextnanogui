@@ -1,0 +1,47 @@
+{
+	"section": "global-parameters",
+	"required": false,
+	"increment": false,
+	"properties": {
+		"lattice-temperature": {
+			"required": true,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 300
+		},
+		"temperature-sweep-active": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"temperature-sweep-step-size": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"temperature-sweep-number-of-steps": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"data-out-every-nth-step": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		}
+	}
+}

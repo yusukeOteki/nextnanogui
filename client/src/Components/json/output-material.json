@@ -1,0 +1,231 @@
+{
+	"section": "output-material",
+	"required": false,
+	"increment": false,
+	"properties": {
+		"destination-directory": {
+			"required": true,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "material_parameters/"
+		},
+		"number-of-conduction-bands": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "num-cbands.dat"
+		},
+		"conduction-band-energies": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "cb-energies.dat"
+		},
+		"conduction-band-masses": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "cb-masses.dat"
+		},
+		"conduction-band-degeneracies": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "cb-degeneracy.dat"
+		},
+		"conduction-band-nonparabolicities": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "cb-nonpar.dat"
+		},
+		"number-of-valence-bands": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "num-vbands.dat"
+		},
+		"valence-band-energies": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "vb-energy.dat"
+		},
+		"valence-band-masses": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "vb-masses.dat"
+		},
+		"valence-band-degeneracies": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "vb-degeneracy.dat"
+		},
+		"valence-band-nonparabolicities": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "vb-nonpar.dat"
+		},
+		"static-dielectric-constants": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "st-dielc.dat"
+		},
+		"optical-dielectric-constants": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "op-dielc.dat"
+		},
+		"lattice-constants": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "lattice-constants.dat"
+		},
+		"pressure": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "pressure.dat"
+		},
+		"elastic-constants": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "elastic-constants.dat"
+		},
+		"absolute-deformation-potentials-cbs": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "abs_def_cb.dat"
+		},
+		"absolute-deformation-potential-vb": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "abs_def_vb.dat"
+		},
+		"uniax-cb-deformation-potentials": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "uniax_cb_def.dat"
+		},
+		"uniax-vb-deformation-potentials": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "uniax_vb_def.dat"
+		},
+		"Luttinger-parameters": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "Luttinger.dat"
+		},
+		"6x6kp-parameters": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "6x6kp.dat"
+		},
+		"8x8kp-parameters": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "8x8kp.dat"
+		},
+		"LO-phonon-energy": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "LO_phonon_energy.dat"
+		},
+		"doping-concentration": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "doping_concentration.dat"
+		},
+		"spontaneous-polarization": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "pyro_polarization.dat"
+		},
+		"piezoelectric-polarization": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "piezo_polarization.dat"
+		},
+		"grid-position": {
+			"required": false,
+			"type": "double_array",
+			"min": 1,
+			"max": 3,
+			"choices": null,
+			"default": [5]
+		}
+	}
+}

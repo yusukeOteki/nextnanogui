@@ -1,0 +1,335 @@
+{
+	"section": "output-kp-data",
+	"required": false,
+	"increment": false,
+	"properties": {
+		"destination-directory": {
+			"required": true,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "kp/"
+		},
+		"complex-wave-functions": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"kp-spinors": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"detailed-output": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"scale": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.1
+		},
+		"shift-wavefunction-by-eigenvalue": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"bulk-kp-dispersion": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no", "real-and-imaginary-k-vector"],
+			"default": "no"
+		},
+		"bulk-kp-dispersion-3D": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no", "graphene"],
+			"default": "no"
+		},
+		"grid-position": {
+			"required": false,
+			"type": "double_array",
+			"min": 1,
+			"max": 3,
+			"choices": null,
+			"default": [10]
+		},
+		"k-direction-from-k-point": {
+			"required": false,
+			"type": "double_array",
+			"min": 3,
+			"max": 3,
+			"choices": null,
+			"default": [0, 0, -1]
+		},
+		"k-direction-to-k-point": {
+			"required": false,
+			"type": "double_array",
+			"min": 3,
+			"max": 3,
+			"choices": null,
+			"default": [0, 0, 1]
+		},
+		"number-of-k-points": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 50
+		},
+		"shift-holes-to-zero": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"k-par-dispersion": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no", "01-00", "01-00-11", "01-00-10"],
+			"default": "no"
+		},
+		"k-par-disp-ev-min": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"k-par-disp-ev-max": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 10
+		},
+		"DOS-density-of-states": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"DOS-Emin-Emax": {
+			"required": false,
+			"type": "double_array",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": [0, 2.5]
+		},
+		"DOS-points": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1000
+		},
+		"cb-num-ev-min": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"cb-num-ev-max": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"cb-k-par-min": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"cb-k-par-max": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"cb-k-SL-min": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"cb-k-SL-max": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"vb-num-ev-min": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"vb-num-ev-max": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"vb-k-par-min": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"vb-k-par-max": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"vb-k-SL-min": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"vb-k-SL-max": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"interband-matrix-elements": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"intraband-matrix-elements": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no", "p", "z", "o", "everything"],
+			"default": "no"
+		},
+		"intraband-lifetime": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"intraband-matrix-elements-operator": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": ""
+		},
+		"optical-matrix-element-output": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no", "complex"],
+			"default": "no"
+		},
+		"dipole-transition-type": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["el-el", "el-hl", "hl-el", "hl-hl"],
+			"default": "no"
+		},
+		"initial-band-min": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"initial-band-max": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 2
+		},
+		"final-band-min": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 8
+		},
+		"final-band-max": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 9
+		}
+	}
+}

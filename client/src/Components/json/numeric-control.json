@@ -1,0 +1,797 @@
+{
+	"section": "numeric-control",
+	"required": false,
+	"increment": false,
+	"properties": {
+		"simulation-dimension": {
+			"required": true,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": [1, 2, 3],
+			"default": 1
+		},
+		"strain-lin-eq-solv": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["BiCGSTAB", "PCG_Kent"],
+			"default": "BiCGSTAB"
+		},
+		"strain-symm-sparse-matrix": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"strain-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": null,
+			"choices": null,
+			"default": "no"
+		},
+		"strain-residual": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": null,
+			"choices": null,
+			"default": 0.0000000001
+		},
+		"strain-volume-correction-residual": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.000006
+		},
+		"strain-volume-correction-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 50
+		},
+		"filling-factor-for-ILU-decomposition": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 10
+		},
+		"discretize-only-once": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 10,
+			"choices": ["yes", "no"],
+			"default": "yes"
+		},
+		"newton-method": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["Newton-1", "Newton-2", "Newton-3"],
+			"default": "Newton-3"
+		},
+		"newton-max-linesearch-steps": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 20
+		},		
+		"nonlinear-poisson-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 100
+		},
+		"nonlinear-poisson-residual": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.00000008
+		},
+		"nonlinear-poisson-stepmax": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.02
+		},
+		"nonlinear-poisson-cg-lin-eq-solv": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["LAPACK", "LAPACK-full", " LAPACK-tridiagonal", "cg", "cg-MICCG", "cg-Jacobi", "PCG_Kent"],
+			"default": "LAPACK"
+		},
+		"nonlinear-poisson-cg-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1000
+		},
+		"nonlinear-poisson-cg-residual": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.000001
+		},
+		"current-poisson-method": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["block-iterative", "couple-all-true", "couple-all-false", "couple-all-true-aniso", "couple-all-false-aniso"],
+			"default": "block-iterative"
+		},
+		"current-poisson-lin-eq-solv": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["BiCGSTAB", "QMRducpl", "LAPACK", "PCG_KENT"],
+			"default": "BiCGSTAB"
+		},
+		"current-poisson-lin-eq-solv-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 4000
+		},
+		"current-poisson-lin-eq-solv-residual": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.000001
+		},
+		"current-poisson-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 10
+		},
+		"current-poisson-residual": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.00000001
+		},
+		"current-block-iterations-Fermi": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 10
+		},
+		"current-block-relaxation-Fermi": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.0000000001
+		},
+		"coupled-current-poisson-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 100
+		},
+		"coupled-current-poisson-residual": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.000001
+		},
+		"coupled-current-poisson-stepmax": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.01
+		},
+		"current-problem": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["solve-for-Fermi-integrate-current", "solve-for-Fermi-LAPACK", "solve-for-Fermi-cg"],
+			"default": "solve-for-Fermi-integrate-current"
+		},
+		"current-problem-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 5
+		},
+		"current-problem-cg-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.00000000000001
+		},
+		"current-problem-cg-residual": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.00000000000001
+		},
+		"schroedinger-1band-ev-solv": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["LAPACK", "LAPACK-DSYEV", "LAPACK-DSYEVX", "LAPACK-DSTEV", "LAPACK-DSTEVD", "LAPACK-ZHEEV", "LAPACK-ZHEEVX", "LAPACK-ZHEEVR", "LAPACK-ZHBGV", "LAPACK-ZHBGVX", "laband", "ARPACK", "ARPACK-shift-invert", "chearn", "it_jam", "FEASTd", "FEAST-CSR", "FEAST-RCI"],
+			"default": "LAPACK"
+		},
+		"schroedinger-1band-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1000
+		},
+		"schroedinger-1band-residual": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.000000000001
+		},
+		"schroedinger-1band-more-ev": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 6
+		},
+		"schroedinger-chearn-el-cutoff": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 5
+		},
+		"schroedinger-chearn-hl-cutoff": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 5
+		},
+		"schroedinger-kp-ev-solv": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["LAPACK", "LAPACK-ZHEEVR", "LAPACK-ZHEEV", "LAPACK-ZHEEVX", "laband", "LAPACK-ZHBGV", "LAPACK-ZHBGVX", "ARPACK", "ARPACK-shift-invert", "chearn", "it_jam", "FEASTd", "FEAST-CSR", "FEAST-RCI"],
+			"default": "LAPACK"
+		},
+		"schroedinger-kp-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 30
+		},
+		"schroedinger-kp-residual": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.0000000001
+		},
+		"schroedinger-kp-more-ev": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 6
+		},
+		"schroedinger-kp-discretization": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["box-integration", "box-integration-XYZ", "finite-differences", "finite-differences1D"],
+			"default": "box-integration"
+		},
+		"schroedinger-poisson-problem": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["precor", "newton"],
+			"default": "precor"
+		},
+		"schroedinger-poisson-precor-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 12
+		},
+		"schroedinger-poisson-precor-residual": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.000000001
+		},
+		"poisson-boundary-condition-along-x": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["periodic", "Neumann", "Dirichlet"],
+			"default": "Neumann"
+		},
+		"poisson-boundary-condition-along-y": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["periodic", "Neumann", "Dirichlet"],
+			"default": "Neumann"
+		},
+		"poisson-boundary-condition-along-z": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["periodic", "Neumann", "Dirichlet"],
+			"default": "Neumann"
+		},
+		"scale-poisson": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"scale-current": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"fermi-function-mode": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": [1,2,3,4],
+			"default": 4
+		},
+		"fermi-function-precision": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.000001
+		},
+		"potential-from-function": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["", "no"],
+			"default": "no"
+		},
+		"initial-potential": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"zero-potential": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"built-in-potential-qm": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"separation-energy-shift": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.3
+		},
+		"separation-energy-shift-eV": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"schroedinger-masses-anisotropic": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no", "box", "1D"],
+			"default": "no"
+		},
+		"use-band-gaps": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"varshni-parameters-on": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"lattice-constants-temp-coeff-on": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"Luttinger-parameters": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["6x6kp", "yes", "6x6kp-kappa", "6x6kp-kappa-only", "8x8kp", "8x8kp-kappa", "8x8kp-kappa-only", "no"],
+			"default": "no"
+		},
+		"Kane-momentum-matrix-element": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["E_P", "P"],
+			"default": "E_P"
+		},
+		"Kane-momentum-matrix-element": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"kp-cv-term-symmetrization": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"kp-vv-term-symmetrization": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"8x8kp-params-from-6x6kp-params": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["no", "yes", "LMNS", "LMN", "S"],
+			"default": "no"
+		},
+		"8x8kp-params-rescale-S-to": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["ONE", "ZERO", "no"],
+			"default": "no"
+		},
+		"quantization-axis-of-spin": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["x", "y", "z", "default"],
+			"default": "no"
+		},
+		"calculate-bandedge-energies": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["vb-method-1", "vb-method-2", "vb-method-3", "vb-method-4"],
+			"default": "vb-method-1"
+		},
+		"strain-transforms-k-vectors": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"broken-gap": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no", "full-band-density", "full-band-density-electrons", "full-band-density-holes", "full-band-density-electrons-only", "full-band-density-holes-only"],
+			"default": "no"
+		},
+		"piezo-charge-at-boundaries": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"pyro-charge-at-boundaries": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no", "full-band-density", "full-band-density-electrons", "full-band-density-holes", "full-band-density-electrons-only", "full-band-density-holes-only"],
+			"default": "no"
+		},
+		"piezo-second-order": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["no", "2nd-order", "2nd-order-Tse-Pal", "4th-order-Tse-Pal"],
+			"default": "no"
+		},
+		"piezo-constants-zero": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"pyro-constants-zero": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"discontinous-charge-density-1band": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"superlattice-option": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["whole", "100-only", "010-only", "001-only", "110-only", "101-only", "011-only", "111-only"],
+			"default": "no"
+		},
+		"superlattice-save-wavefunctions": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "yes"
+		},
+		"exchange-correlation": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["no", "LDA", "LSDA", "LDA-exchange", "LSDA-exchange", "LDA-correlation", "LSDA-correlation"],
+			"default": "no"
+		},
+		"coulomb-matrix-element": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "yes"
+		},
+		"calculate-exciton": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "yes"
+		},
+		"exciton-lambda": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 2
+		},
+		"exciton-lambda-step-length": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.05
+		},
+		"exciton-iterations": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 5
+		},
+		"exciton-residual": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.00001
+		},
+		"exciton-electron-state-number": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"exciton-hole-state-number": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"number-of-electron-states-for-exciton": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 3
+		},
+		"number-of-hole-states-for-exciton": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 3
+		},
+		"tight-binding-method": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["bulk-zincblende-sp3s*-nn", "bulk-graphene-Saito-nn", "bulk-graphene-Scholz-nn", "bulk-graphene-Scholz-3rd-nn", "bulk-graphene-Reich-3rd-nn"],
+			"default": "bulk-zincblende-sp3s*-nn"
+		},
+		"tight-binding-parameters": {
+			"required": false,
+			"type": "double_array",
+			"min": 1,
+			"max": 16,
+			"choices": null,
+			"default": [0]
+		},
+		"tight-binding-calculate-parameter": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["no", "E2p", "gamma1"],
+			"default": "no"
+		},
+		
+		
+		
+		
+		"graphene-potential-fluctuation": {
+			"required": false,
+			"type": "double_array",
+			"min": 1,
+			"max": 3,
+			"choices": null,
+			"default": [0, 0.0001, 4]
+		},
+		"get-k-vector-dispersion-for-lead-modes": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["arccos", "use_ln", "acosIN"],
+			"default": "arccos"
+		}
+	}
+}

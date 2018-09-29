@@ -1,0 +1,146 @@
+{
+	"section": "domain-coordinates",
+	"required": true,
+	"increment": false,
+	"properties": {
+		"domain-type": {
+			"required": true,
+			"type": "integer_array",
+			"min": 1,
+			"max": 1,
+			"choices": [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 0], [1, 0, 1], [0, 1, 1], [1, 1, 1]],
+			"default": [1, 0, 0]
+		},
+		
+		"x-coordinates": {
+			"required": false,
+			"type": "double_array",
+			"min": 2,
+			"max": 2,
+			"choices": null,
+			"default": [0, 0]
+		},
+		"y-coordinates": {
+			"required": false,
+			"type": "double_array",
+			"min": 2,
+			"max": 2,
+			"choices": null,
+			"default": [0, 0]
+		},
+		"z-coordinates": {
+			"required": false,
+			"type": "double_array",
+			"min": 2,
+			"max": 2,
+			"choices": null,
+			"default": [0, 0]
+		},
+		
+		"hkl-x-direction-zb": {
+			"required": false,
+			"type": "integer_array",
+			"min": 3,
+			"max": 3,
+			"choices": null,
+			"default": [0, 0, 0]
+		},
+		"hkl-y-direction-zb": {
+			"required": false,
+			"type": "integer_array",
+			"min": 3,
+			"max": 3,
+			"choices": null,
+			"default": [0, 0, 0]
+		},
+		"hkl-z-direction-zb": {
+			"required": false,
+			"type": "integer_array",
+			"min": 3,
+			"max": 3,
+			"choices": null,
+			"default": [0, 0, 0]
+		},
+		
+		"hkil-x-direction": {
+			"required": false,
+			"type": "integer_array",
+			"min": 4,
+			"max": 4,
+			"choices": null,
+			"default": [0, 0, 0, 0]
+		},
+		"hkil-y-direction": {
+			"required": false,
+			"type": "integer_array",
+			"min": 4,
+			"max": 4,
+			"choices": null,
+			"default": [0, 0, 0, 0]
+		},
+		"hkil-z-direction": {
+			"required": false,
+			"type": "integer_array",
+			"min": 4,
+			"max": 4,
+			"choices": null,
+			"default": [0, 0, 0, 0]
+		},
+		"growth-coordinate-axis": {
+			"required": false,
+			"type": "integer_array",
+			"min": 1,
+			"max": 1,
+			"choices": [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+			"default": [1, 0, 0]
+		},
+		"pseudomorphic-on": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "GaAs"
+		},
+		"alloy-concentration": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"pressure": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"lattice-constants": {
+			"required": false,
+			"type": "double_array",
+			"min": 3,
+			"max": 3,
+			"choices": null,
+			"default": [0, 0, 0]
+		},
+		"lattice-constants-temp-coeff": {
+			"required": false,
+			"type": "double_array",
+			"min": 3,
+			"max": 3,
+			"choices": null,
+			"default": [0, 0, 0]
+		},
+		"crystal-type": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["zincblende", "wurtzite"],
+			"default": "zincblende"
+		}
+	}
+}

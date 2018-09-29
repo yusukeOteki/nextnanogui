@@ -1,0 +1,111 @@
+{
+	"section": "material",
+	"required": true,
+	"increment": "material-number",
+	"properties": {
+		"material-number": {
+			"required": true,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"cluster-numbers": {
+			"required": true,
+			"type": "integer_array",
+			"min": 1,
+			"max": null,
+			"choices": null,
+			"default": [1]
+		},
+		"material-name": {
+			"required": true,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": ""
+		},
+		"alloy-function": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["constant", "linear", ""],
+			"default": "constant"
+		},
+		"material-model": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["binary-zb-default", "ternary-zb-default", "binary-wz-default", "ternary-wz-default"],
+			"default": "binary-zb-default"
+		},
+		"material-type": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": ""
+		},
+		"growth-coordinate-axis": {
+			"required": false,
+			"type": "integer_array",
+			"min": 1,
+			"max": 1,
+			"choices": ["1 0 0", "0 1 0", "0 0 1"],
+			"default": "1 0 0"
+		},
+		"pseudomorphic-on": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "GaAs"
+		},
+		"alloy-concentration": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"lattice-constants": {
+			"required": false,
+			"type": "double_array",
+			"min": 3,
+			"max": 3,
+			"choices": null,
+			"default": [1, 1, 1]
+		},
+		"lattice-constants-temp-coeff": {
+			"required": false,
+			"type": "double_array",
+			"min": 3,
+			"max": 3,
+			"choices": null,
+			"default": [0, 0, 0]
+		},
+		"crystal-type": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["zincblende", "wurtzite"],
+			"default": "zincblende"
+		},
+		"pressure": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		}
+	}
+}

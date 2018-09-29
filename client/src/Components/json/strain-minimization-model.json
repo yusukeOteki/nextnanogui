@@ -1,0 +1,167 @@
+{
+	"section": "strain-minimization-model",
+	"required": false,
+	"increment": false,
+	"properties": {
+		"substrate-cluster-number": {
+			"required": true,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"boundary-condition-x": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["Neumann", "periodic"],
+			"default": "Neumann"
+		},
+		"boundary-condition-y": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["Neumann", "periodic"],
+			"default": "Neumann"
+		},
+		"boundary-condition-z": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["Neumann", "periodic"],
+			"default": "Neumann"
+		},
+		"grown-on-substrate": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "yes"
+		},
+		"deformed-volume-correction": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"input-substrate-strain": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"strain-epsilon-substrate-xx": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.05
+		},
+		"strain-epsilon-substrate-yy": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.05
+		},
+		"strain-epsilon-substrate-zz": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0.05
+		},
+		"strain-epsilon-substrate-xy": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"strain-epsilon-substrate-xz": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"strain-epsilon-substrate-yz": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"input-substrate-stress": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"stress-sigma-substrate-xx": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1000000000
+		},
+		"stress-sigma-substrate-yy": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"stress-sigma-substrate-zz": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"stress-sigma-substrate-xy": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"stress-sigma-substrate-xz": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		},
+		"stress-sigma-substrate-yz": {
+			"required": false,
+			"type": "double",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 0
+		}
+	}
+}

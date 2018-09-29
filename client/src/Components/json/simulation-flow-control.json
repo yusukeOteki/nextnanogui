@@ -1,0 +1,63 @@
+{
+	"section": "simulation-flow-control",
+	"required": true,
+	"increment": false,
+	"properties": {
+		"flow-scheme": {
+			"required": true,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 2
+		},
+		"strain-calculation": {
+			"required": true,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["no-strain", "homogeneous-strain", "homogeneous-strain-sim-system", "strain-minimization", "strain-minimization-new", "raw-strain-in", "import-strain-simulation-coordinate-system", "import-strain-crystal-coordinate-system", "hydrostatic-strain"],
+			"default": "no-strain"
+		},
+		"raw-directory-in": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": "raw_data/"
+		},
+		"raw-potential-in": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "yes"
+		},
+		"raw-fermi-levels-in": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "yes"
+		},
+		"raw-kp-eigenstates-in": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "yes"
+		},
+		"raw-sweep-index-in": {
+			"required": false,
+			"type": "integer",
+			"min": 0,
+			"max": null,
+			"choices": null,
+			"default": 1
+		}
+	}
+}

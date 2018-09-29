@@ -1,0 +1,63 @@
+{
+	"section": "output-file-format",
+	"required": false,
+	"increment": false,
+	"properties": {
+		"simulation-dimension": {
+			"required": true,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": [1,2,3],
+			"default": 1
+		},
+		"VTK-XML": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"VTK-legacy": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"AVS-Express": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["yes", "no"],
+			"default": "no"
+		},
+		"number-of-AVS-files": {
+			"required": false,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": [1,2,3],
+			"default": 1
+		},
+		"file-format": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["Origin", "ASCII", "AVS-ASCII", "AVS-binary", "AVS-binary-single", "AVS-binary-double"],
+			"default": "Origin"
+		},
+		"resolution": {
+			"required": false,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["default", "average", "all"],
+			"default": "default"
+		}
+	}
+}

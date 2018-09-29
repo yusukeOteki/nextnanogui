@@ -1,0 +1,95 @@
+{
+	"section": "regions",
+	"required": false,
+	"increment": "region-number",
+	"properties": {
+		"region-number": {
+			"required": true,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"region-priority": {
+			"required": true,
+			"type": "integer",
+			"min": 1,
+			"max": 1,
+			"choices": null,
+			"default": 1
+		},
+		"base-geometry": {
+			"required": true,
+			"type": "character",
+			"min": 1,
+			"max": 1,
+			"choices": ["line", "rectangle", "triangle", "trapezoid", "polygon", "semiellipse", "cuboid", "obelisk", "cone", "truncated-cone", "semiellipsoid", "hexagonal-obelisk", "triangular-prism"],
+			"default": "cuboid"
+		},
+		"x-coordinates": {
+			"required": true,
+			"type": "double_array",
+			"min": 2,
+			"max": 2,
+			"choices": null,
+			"default": [0, 0]
+		},
+		"y-coordinates": {
+			"required": true,
+			"type": "double_array",
+			"min": 2,
+			"max": 2,
+			"choices": null,
+			"default": [0, 0]
+		},
+		"z-coordinates": {
+			"required": true,
+			"type": "double_array",
+			"min": 2,
+			"max": 2,
+			"choices": null,
+			"default": [0, 0]
+		},
+		"base-coordinates": {
+			"required": true,
+			"type": "double_array",
+			"min": 6,
+			"max": 6,
+			"choices": null,
+			"default": [0, 0, 0, 0, 0, 0]
+		},
+		"top-coordinates": {
+			"required": true,
+			"type": "double_array",
+			"min": 6,
+			"max": 6,
+			"choices": null,
+			"default": [0, 0, 0, 0, 0, 0]
+		},
+		"corner-coordinates": {
+			"required": true,
+			"type": "double_array",
+			"min": 18,
+			"max": 18,
+			"choices": null,
+			"default": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		},
+		"semi-ellipse-base": {
+			"required": true,
+			"type": "double_array",
+			"min": 4,
+			"max": 4,
+			"choices": null,
+			"default": [0, 0, 0, 0]
+		},
+		"semi-ellipse-top": {
+			"required": true,
+			"type": "double_array",
+			"min": 2,
+			"max": 2,
+			"choices": null,
+			"default": [0, 0]
+		}
+	}
+}

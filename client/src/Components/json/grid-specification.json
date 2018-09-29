@@ -1,0 +1,87 @@
+{
+	"section": "grid-specification",
+	"required": true,
+	"increment": false,
+	"properties": {
+		"grid-type": {
+			"required": true,
+			"type": "integer_array",
+			"min": 3,
+			"max": 3,
+			"choices": [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 0], [1, 0, 1], [0, 1, 1], [1, 1, 1]],
+			"default": [1, 0, 0]
+		},
+		"x-grid-lines": {
+			"required": false,
+			"type": "double_array",
+			"min": 1,
+			"max": null,
+			"choices": null,
+			"default": [0]
+		},
+		"x-nodes": {
+			"required": false,
+			"type": "integer_array",
+			"min": 1,
+			"max": null,
+			"choices": null,
+			"default": [0]
+		},
+		"x-grid-factors": {
+			"required": false,
+			"type": "double_array",
+			"min": 1,
+			"max": null,
+			"choices": null,
+			"default": [0]
+		},
+		"y-grid-lines": {
+			"required": false,
+			"type": "double_array",
+			"min": 1,
+			"max": null,
+			"choices": null,
+			"default": [0]
+		},
+		"y-nodes": {
+			"required": false,
+			"type": "integer_array",
+			"min": 1,
+			"max": null,
+			"choices": null,
+			"default": [0]
+		},
+		"y-grid-factors": {
+			"required": false,
+			"type": "double_array",
+			"min": 1,
+			"max": null,
+			"choices": null,
+			"default": [0]
+		},
+		"z-grid-lines": {
+			"required": false,
+			"type": "double_array",
+			"min": 1,
+			"max": null,
+			"choices": null,
+			"default": [0]
+		},
+		"z-nodes": {
+			"required": false,
+			"type": "integer_array",
+			"min": 1,
+			"max": null,
+			"choices": null,
+			"default": [0]
+		},
+		"z-grid-factors": {
+			"required": false,
+			"type": "double_array",
+			"min": 1,
+			"max": null,
+			"choices": null,
+			"default": [0]
+		}
+	}
+}
