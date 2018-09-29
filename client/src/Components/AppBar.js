@@ -27,9 +27,6 @@ import Assessment from '@material-ui/icons/Assessment';
 import Settings from '@material-ui/icons/Settings';
 import Looks3 from '@material-ui/icons/Looks3';
 
-//import { FilePicker } from 'react-file-picker'
-//const fileDownload = require('react-file-download');
-
 const { ipcRenderer } = window.require('electron');
 const { dialog } = window.require('electron').remote;
 
@@ -150,48 +147,67 @@ class PrimarySearchAppBar extends React.Component {
   };
 
   handleSaveJson(e) {
-    let options = {
-      title: "Save  json input file",
-      defaultPath: 'filename.json',
-      filters: [
-        {name: 'nextnano3', extensions: ['json']},
-      ]
-    };
-    let that = this;
-    dialog.showSaveDialog(options, function (filename) {
-      if(!filename) return false;
-      ipcRenderer.send('saveInputFile', filename, that.props.jsonfile);
-    });
+    if (this.props.mode === "input") {
+      let options = {
+        title: "Save  json input file",
+        defaultPath: 'filename.json',
+        filters: [
+          { name: 'nextnano3', extensions: ['json'] },
+        ]
+      };
+      let that = this;
+      dialog.showSaveDialog(options, function (filename) {
+        if (!filename) return false;
+        ipcRenderer.send('saveInputFile', filename, that.props.jsonfile);
+      });
+    }
   };
 
   handleSaveN3(e) {
-    let options = {
-      title: "Save  nextnano3 input file",
-      defaultPath: 'filename.in',
-      filters: [
-        {name: 'nextnano3', extensions: ['in']},
-      ]
-    };
-    let that = this;
-    dialog.showSaveDialog(options, function (filename) {
-      if(!filename) return false;
-      ipcRenderer.send('saveInputFile', filename, that.props.n3file);
-    });
+    if (this.props.mode === "input") {
+      let options = {
+        title: "Save  nextnano3 input file",
+        defaultPath: 'filename.in',
+        filters: [
+          { name: 'nextnano3', extensions: ['in'] },
+        ]
+      };
+      let that = this;
+      dialog.showSaveDialog(options, function (filename) {
+        if (!filename) return false;
+        ipcRenderer.send('saveInputFile', filename, that.props.n3file);
+      });
+    }
   };
 
   handleOpenFile(e) {
-    let options = {
-      title: "Open folder",
-      properties: ['openFile'],
-    };
-    let that = this;
-    dialog.showOpenDialog(options, function (filename) {
-      if(!filename) return false;
-      ipcRenderer.send('openInputFile', filename);
-      ipcRenderer.on('openInputFile-replay', (event, path, content) => {
-        that.props.onEventCallBack(content, path.split('.')[path.split('.').length - 1])
+    if (this.props.mode === "input") {
+      let options = {
+        title: "Open folder",
+        properties: ['openFile'],
+      };
+      let that = this;
+      dialog.showOpenDialog(options, function (filename) {
+        if (!filename) return false;
+        ipcRenderer.send('openInputFile', filename);
+        ipcRenderer.on('openInputFile-replay', (event, path, content) => {
+          that.props.onEventCallBack(content, path.split('.')[path.split('.').length - 1])
+        });
       });
-    });
+    }else if(this.props.mode === "output"){
+      let options = {
+        title: "Open folder",
+        properties: ['openDirectory']
+      };
+      let that = this;
+      dialog.showOpenDialog(options, function (filenames) {
+        ipcRenderer.send('mul-async-dialog', filenames);
+        ipcRenderer.on('mul-async-dialog-replay', (event, directoryPath, directoryContents) => {
+          let src = directoryPath + "/" + directoryContents[0];
+          that.props.onEventCallBack({ directoryPath, directoryContents, src }, 'output');
+        });
+      });
+    }
   };
 
   render() {

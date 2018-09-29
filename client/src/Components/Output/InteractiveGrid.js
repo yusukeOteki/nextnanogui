@@ -3,26 +3,12 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
-import ParametersList from './ParametersList'
+import OutputList from './OutputList'
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    marginBottom: theme.spacing.unit * 20,
-  },
-  demo: {
-    height: "100%",
-  },
-  paper: {
-    margin: theme.spacing.unit * 2,
-    padding: theme.spacing.unit * 2,
-    height: '100%',
-    color: theme.palette.text.secondary,
-  },
-  control: {
-    padding: theme.spacing.unit * 2,
-  },
-  footer: {
+    height: '80%',
   },
 });
 
@@ -43,12 +29,12 @@ class InteractiveGrid extends React.Component {
   }
 
   render() {
-    const { classes, input, counter, keywords, keywordsList } = this.props;
+    const { classes, output } = this.props;
     return (
       <Grid container className={classes.root}>
-        <ParametersList keywords={keywords} keywordsList={keywordsList} input={input} xs={3} counter={counter} onEventCallBack={this.changeData} />
-        <ParametersList keywords={keywords} keywordsList={keywordsList} input={input} xs={3} counter={counter} onEventCallBack={this.changeData} />
-        <ParametersList keywords={keywords} keywordsList={keywordsList} input={input} xs={6} counter={counter} onEventCallBack={this.changeData} />
+        <OutputList output={output} xs={3} onEventCallBack={this.changeData} />{/* 
+        <ParametersList output={output} xs={3} onEventCallBack={this.changeData} />
+        <ParametersList output={output} xs={6} onEventCallBack={this.changeData} /> */}
       </Grid>
     );
   }

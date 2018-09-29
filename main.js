@@ -48,11 +48,21 @@ ipc.on('mul-async-dialog', function (event, arg) {
     album = album.map(function (file) {
         if (fs.statSync(directoryPath + "/" + file).isDirectory()) {
             return ({
+                "type": "directory",
                 "name": file,
-                "contents": fs.readdirSync(directoryPath + "/" + file).filter(function (file2) { return regexp.test(file2) })
+                "opened": false,
+                "contents": fs.readdirSync(directoryPath + "/" + file).map(function (file2) { return ({
+                    "type": "file",
+                    "name": file2,
+                    "checked": false
+                })})
             })
         } else {
-            if (regexp.test(file)) { return file };
+            return ({
+                "type": "file",
+                "name": file,
+                "checked": false
+            })
         }
     });
     event.sender.send('mul-async-dialog-replay', directoryPath, album);

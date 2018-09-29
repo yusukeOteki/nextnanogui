@@ -10,21 +10,7 @@ import ParametersConverted from './ParametersConverted'
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    marginBottom: theme.spacing.unit * 20,
-  },
-  demo: {
-    height: "100%",
-  },
-  paper: {
-    margin: theme.spacing.unit * 2,
-    padding: theme.spacing.unit * 2,
-    height: '100%',
-    color: theme.palette.text.secondary,
-  },
-  control: {
-    padding: theme.spacing.unit * 2,
-  },
-  footer: {
+    height: "80%"
   },
 });
 

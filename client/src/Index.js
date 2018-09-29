@@ -75,7 +75,7 @@ const convertN3toJson = (n3) => {
   }
   return initialInput;
 }
-let that;
+
 export default class Index extends React.Component {
   constructor(props){
     super(props);
@@ -88,13 +88,14 @@ export default class Index extends React.Component {
         }
       }
     }
-    //that = this;
+    
     this.state = {
       input: initialInput,
       jsonfile: JSON.stringify(initialInput),
       counter: counter,
       n3file: "",
-      mode: "output"
+      mode: "output",
+      output: {}
     };
 
     this.changeFile = this.changeFile.bind(this);
@@ -103,7 +104,6 @@ export default class Index extends React.Component {
   }
   
   changeFile (changedfile, type) {
-    console.log(changedfile, type)
     if(type === "json") {
       let tempInput = JSON.parse(changedfile);
       let c = Math.max(...Object.keys(tempInput).map(key =>
@@ -116,6 +116,7 @@ export default class Index extends React.Component {
       this.setState({ jsonfile: changedfile, input: JSON.parse(changedfile), counter: ++c });
     }
     if(type === "in") this.setState({ n3file: changedfile, input: convertN3toJson(changedfile) });
+    if(type === "output") this.setState({ output: changedfile });
   }
 
   changeData (changedData, type, counter) {
@@ -128,15 +129,15 @@ export default class Index extends React.Component {
   }
 
   render() {
-    const { jsonfile, n3file, input, counter, mode } = this.state;
+    const { jsonfile, n3file, input, output, counter, mode } = this.state;
     return (
 /*       <div>
         <ListTest />
       </div> */
-      <div className="App">
-        <AppBar jsonfile={jsonfile} n3file={n3file} onEventCallBack={this.changeFile} changeMode={this._changeMode} />
+      <div className="App" style={{height:'100%'}}>
+        <AppBar jsonfile={jsonfile} n3file={n3file} mode={mode} onEventCallBack={this.changeFile} changeMode={this._changeMode} />
         {mode === "input" && <InputGrid input={input} counter={counter} keywords={keywords} keywordsList={keywordsList} onEventCallBack={this.changeData} />}
-        {mode === "output" && <OutputGrid input={input} counter={counter} keywords={keywords} keywordsList={keywordsList} onEventCallBack={this.changeData} />}
+        {mode === "output" && <OutputGrid output={output} counter={counter} keywords={keywords} keywordsList={keywordsList} onEventCallBack={this.changeData} />}
         <Tabs />
       </div>
     )
