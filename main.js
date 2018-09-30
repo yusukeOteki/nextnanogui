@@ -1,3 +1,4 @@
+const electron = require('electron');
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
@@ -5,6 +6,10 @@ const fs = require("fs");
 
 let win;
 const info_path = path.join(__dirname, '/userData.json');
+
+const client = require('electron-connect').client;
+
+const loadDevtool = require('electron-load-devtool');
 
 var ipc = require('electron').ipcMain;
 var directoryPath = ""; //初期値
@@ -79,6 +84,10 @@ ipc.on('openInputFile', function (event, arg) {
     event.sender.send('openInputFile-replay', arg[0], JSON.stringify(JSON.parse(fs.readFileSync(arg[0], 'utf8'))));
 });
 
+ipc.on('readDat', function (event, arg) {
+    event.returnValue = fs.readFileSync(arg, 'utf8');
+});
+
 function createWindow() {
     // ブラウザウィンドウを作成します。
     let bounds_info;
@@ -99,6 +108,8 @@ function createWindow() {
         slashes: true
     }));
 
+    loadDevtool(loadDevtool.REACT_DEVELOPER_TOOLS);
+
     win.on('close', function () {
         fs.writeFileSync(info_path, JSON.stringify(win.getBounds()));
     });
@@ -109,6 +120,8 @@ function createWindow() {
     });
 
     win.webContents.openDevTools();
+
+    client.create(win);
 }
 //このメソッドは、Electronが初期化を終了し、ブラウザウィンドウを作成する準備ができたときに呼び出されます。
 app.on('ready', createWindow);

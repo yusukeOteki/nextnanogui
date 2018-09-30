@@ -4,7 +4,7 @@ import ListTest from './ListTest';
 
 import AppBar from './Components/AppBar';
 import InputGrid from './Components/Input/InteractiveGrid';
-import OutputGrid from './Components/Output/InteractiveGrid';
+import OutputGrid from './Components/Output/OutputGrid'
 import Tabs from './Components/Tabs';
 import {keywords, keywordsList} from './Components/Params';
 

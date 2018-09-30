@@ -203,8 +203,7 @@ class PrimarySearchAppBar extends React.Component {
       dialog.showOpenDialog(options, function (filenames) {
         ipcRenderer.send('mul-async-dialog', filenames);
         ipcRenderer.on('mul-async-dialog-replay', (event, directoryPath, directoryContents) => {
-          let src = directoryPath + "/" + directoryContents[0];
-          that.props.onEventCallBack({ directoryPath, directoryContents, src }, 'output');
+          that.props.onEventCallBack({ directoryPath, directoryContents }, 'output');
         });
       });
     }

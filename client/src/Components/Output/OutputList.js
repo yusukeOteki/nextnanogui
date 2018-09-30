@@ -26,12 +26,6 @@ const styles = theme => ({
 class OutputList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      directoryPath: '',
-      directoryContents: [],
-      src: "",
-      output: [],
-    }
     this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
     this.handleClickOpen = this.handleClickOpen.bind(this);
@@ -40,10 +34,6 @@ class OutputList extends Component {
 
   componentWillReceiveProps(nextProps) {
     let output = JSON.parse(JSON.stringify(nextProps.output));
-/*     for(let i = 0; i < output.length; i++){
-      if(typeof output[i] === 'object') output[i].opened = false;
-      else output[i].checked = false;
-    } */
     this.setState({output});
     
   }
@@ -65,27 +55,25 @@ class OutputList extends Component {
     if(this.state.output.directoryContents[i].type === 'directory'){
       let output = JSON.parse(JSON.stringify(this.state.output));
       output.directoryContents[i].opened = !output.directoryContents[i].opened;
-      this.setState({output});
+      this.props.onEventCallBack(output);
     }
   };
 
   handleClickCheck(e, i, j) {
-    let output = JSON.parse(JSON.stringify(this.state.output));
-    if(j >= 0) output.directoryContents[i].contents[j].checked = !output.directoryContents[i].contents[j].checked;
-    else output.directoryContents[i].checked = !output.directoryContents[i].checked;
-    this.setState({output});
-/*     if(item.type === 'directory'){
-      let output = JSON.parse(JSON.stringify(this.state.output));
-      output.directoryContents.map(i => {
-        if(typeof i === 'object' && i.name === item.name) i.opened = !i.opened;
-      })
-      this.setState({output});
-    } */
+    let output = JSON.parse(JSON.stringify(this.props.output));
+    let item = '';
+    if(j >= 0) {
+      output.directoryContents[i].contents[j].checked = !output.directoryContents[i].contents[j].checked;
+      item = output.directoryContents[i].name + '\\' + output.directoryContents[i].contents[j].name;
+    }else{
+      output.directoryContents[i].checked = !output.directoryContents[i].checked;
+      item = output.directoryContents[i].name;
+    }
+    this.props.onEventCallBack(output, item);
   };
 
   render() {
-    const { classes, xs } = this.props;
-    const { output } = this.state;
+    const { classes, xs, output } = this.props;
     return (
       <GridPaper xs={xs}>
         <List
