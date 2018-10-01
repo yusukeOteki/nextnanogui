@@ -77,11 +77,12 @@ class DataList extends Component {
         >
           {data.list && data.list.map((item, i) => {
             if (item.checked) {
+              item.raw.length === 1 && console.log()
               return [(
                 <ListItem key={`file-${i}`} button>
                   {item.raw.length > 1 ? <ListItemIcon><FolderIcon /></ListItemIcon> : <Checkbox checked={item.raw[0].display} onClick={e => this.handleClickCheck(e, i, 0)} />}
                   {/* <ListItemIcon>{item.type === 'directory' ? <DraftsIcon /> : <FolderIcon />}</ListItemIcon> */}
-                  <ListItemText secondary={`${item.name}`} onClick={e => this.handleClickOpen(e, i)} />
+                  <ListItemText secondary={`${item.name}/${(item.raw.length === 1) ? item.raw[0].yLabel : ''}`} onClick={e => this.handleClickOpen(e, i)} />
                 </ListItem>
               ), (
                 <Collapse key={`Collapse-${i}`} in={item.opened} timeout="auto" unmountOnExit className={classes.nested}>

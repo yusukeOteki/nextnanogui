@@ -91,6 +91,7 @@ class OutputGrid extends React.Component {
           row.data.push({
             x: tempItem[0],
             y: tempItem[j+1],
+            yLabel: results[0].yLabel,
           });
         }
       }
