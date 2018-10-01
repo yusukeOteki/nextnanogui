@@ -53,7 +53,6 @@ class OutputList extends Component {
   }
 
   handleClickOpen(e, i) {
-    console.log(this.props.output.directoryContents[i])
     if (this.props.output.directoryContents[i].type === 'directory') {
       let output = JSON.parse(JSON.stringify(this.props.output));
       output.directoryContents[i].opened = !output.directoryContents[i].opened;

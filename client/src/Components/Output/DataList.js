@@ -7,6 +7,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
 import FolderIcon from '@material-ui/icons/Folder';
 import DraftsIcon from '@material-ui/icons/Drafts';
@@ -91,15 +92,21 @@ class DataList extends Component {
                           <ListItem key={`file-${i}-${j}`} button onClick={e => this.handleClickCheck(e, i, j)}>
                             <Checkbox checked={content.display} />
                             {/* <ListItemIcon><FolderIcon /></ListItemIcon> */}
-                            <ListItemText secondary={`${content.yLabel}`} />
+                            <ListItemText
+                              secondary={
+                                <Typography variant="body2" style={{color: content.color}}>
+                                  {`${content.yLabel}`}
+                                </Typography>
+                              }
+                              />
                           </ListItem>
                         )
                       })}
                     </List>
                   }
                 </Collapse>
-              ),(
-                <Divider key={'Divider-'+i} />
+              ), (
+                <Divider key={'Divider-' + i} />
               )]
             }
           })}

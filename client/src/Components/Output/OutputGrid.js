@@ -57,7 +57,6 @@ class OutputGrid extends React.Component {
               name: item.name + '\\' + item2.name,
               checked: item2.checked,
               opened: true,
-              display: false,
               raw: this.ShapingDat(ipcRenderer.sendSync('readDat', data.path + '\\' + item.name + '\\' + item2.name)),
             })
           }
@@ -78,7 +77,8 @@ class OutputGrid extends React.Component {
           xLabel: tempItems[0][0],
           yLabel: item,
           data: [],
-          display: false
+          display: false,
+          color: "#"+Math.floor(Math.random() * Math.floor(256)).toString(16)+Math.floor(Math.random() * Math.floor(256)).toString(16)+Math.floor(Math.random() * Math.floor(256)).toString(16)
         }
       }
     }).filter(item => item);

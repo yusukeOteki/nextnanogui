@@ -32,7 +32,7 @@ export default class Chart extends Component {
     const { json, left, right, bottom, top, refAreaLeft, refAreaRight, drag, xlabel, ylabel } = this.props;
     return (
       <ResponsiveContainer height={900 * 2 / 3} width="100%">
-        <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 50 }}>
+        <ScatterChart margin={{ top: 0, right: 5, bottom: 20, left: 0 }}>
           <CartesianGrid />
           <XAxis dataKey={'x'} type="number" domain={[left, right]} name='xAxis'>
             <Label value={`position [nm]`} position="bottom" />
@@ -40,7 +40,7 @@ export default class Chart extends Component {
           <YAxis dataKey={'y'} type="number" domain={[bottom, top]} name='yAxis' />
           <ZAxis range={[0]} />
           {json.length && json.map((item, i) =>
-            <Scatter name='compounds_scatter' key={`compound-${i}`} data={item.data} line={{ stroke: 'red', strokeWidth: 2 }} />
+            <Scatter name='chartLine' key={`compound-${i}`} data={item.data} line={{ stroke: item.color, strokeWidth: 1 }} />
           )}
           {
             (refAreaLeft && refAreaRight && drag) ?
