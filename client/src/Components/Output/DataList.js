@@ -8,9 +8,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/Inbox';
+import FolderIcon from '@material-ui/icons/Folder';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import Checkbox from '@material-ui/core/Checkbox';
+import Divider from '@material-ui/core/Divider';
 
 import GridPaper from '../GridPaper'
 
@@ -19,7 +20,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
   },
   nested: {
-    paddingLeft: theme.spacing.unit * 5,
+    overflow: 'auto',
   },
 });
 
@@ -35,7 +36,7 @@ class DataList extends Component {
   componentWillReceiveProps(nextProps) {
     //let output = JSON.parse(JSON.stringify(nextProps.output));
     //this.setState({output});
-    
+
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -52,18 +53,15 @@ class DataList extends Component {
   }
 
   handleClickOpen(e, i) {
-    if(this.state.output.directoryContents[i].type === 'directory'){
-      let output = JSON.parse(JSON.stringify(this.state.output));
-      output.directoryContents[i].opened = !output.directoryContents[i].opened;
-      this.props.onEventCallBack(output);
-    }
+    let data = JSON.parse(JSON.stringify(this.props.data));
+    data.list[i].opened = !data.list[i].opened;
+    this.props.onEventCallBack(data, i);
   };
 
   handleClickCheck(e, i, j) {
-    let output = JSON.parse(JSON.stringify(this.state.output));
-    if(j >= 0) output.directoryContents[i].contents[j].checked = !output.directoryContents[i].contents[j].checked;
-    else output.directoryContents[i].checked = !output.directoryContents[i].checked;
-    this.props.onEventCallBack(output);
+    let data = JSON.parse(JSON.stringify(this.props.data));
+    data.list[i].raw[j].display = !data.list[i].raw[j].display;
+    this.props.onEventCallBack(data, i, j);
   };
 
   render() {
@@ -72,34 +70,38 @@ class DataList extends Component {
       <GridPaper xs={xs}>
         <List
           component="nav"
-          subheader={<ListSubheader component="div" >Input Parameters</ListSubheader>}
+          subheader={<ListSubheader disableSticky component="div" >Dat file list</ListSubheader>}
           dense={true}
           className={classes.root}
         >
           {data.list && data.list.map((item, i) => {
-            return [(
-              <ListItem key={`file-${i}`} button onClick={e => this.handleClickOpen(e, i)}>
-                <ListItemIcon>{item.type === 'directory' ? <DraftsIcon /> : <InboxIcon />}</ListItemIcon>
-                <ListItemText primary={`${item.name}`} />
-                {item.type === 'directory' ? '' : <Checkbox checked={item.checked} onClick={e => this.handleClickCheck(e, i)} />}
-              </ListItem>
-            )/* , (
-              <Collapse key={`Collapse-${i}`} in={true} timeout="auto" unmountOnExit>
-                {item.type !== 'directory' ? '' :
-                  <List component="div" disablePadding dense={true}>
-                    {item.contents.map((content, j) => {
-                      return (
-                        <ListItem key={`file-${i}-${j}`} button className={classes.nested}>
-                        <ListItemIcon><InboxIcon /></ListItemIcon>
-                        <ListItemText primary={`${content.name}`} />
-                        <Checkbox checked={content.checked} onClick={e => this.handleClickCheck(e, i, j)} />
-                        </ListItem>
-                      )
-                    })}
-                  </List>
-                }
-              </Collapse>
-            ) */]
+            if (item.checked) {
+              return [(
+                <ListItem key={`file-${i}`} button>
+                  {item.raw.length > 1 ? <ListItemIcon><FolderIcon /></ListItemIcon> : <Checkbox checked={item.raw[0].display} onClick={e => this.handleClickCheck(e, i, 0)} />}
+                  {/* <ListItemIcon>{item.type === 'directory' ? <DraftsIcon /> : <FolderIcon />}</ListItemIcon> */}
+                  <ListItemText secondary={`${item.name}`} onClick={e => this.handleClickOpen(e, i)} />
+                </ListItem>
+              ), (
+                <Collapse key={`Collapse-${i}`} in={item.opened} timeout="auto" unmountOnExit className={classes.nested}>
+                  {item.raw.length === 1 ? '' :
+                    <List component="div" disablePadding dense={true}>
+                      {item.raw.map((content, j) => {
+                        return (
+                          <ListItem key={`file-${i}-${j}`} button onClick={e => this.handleClickCheck(e, i, j)}>
+                            <Checkbox checked={content.display} />
+                            {/* <ListItemIcon><FolderIcon /></ListItemIcon> */}
+                            <ListItemText secondary={`${content.yLabel}`} />
+                          </ListItem>
+                        )
+                      })}
+                    </List>
+                  }
+                </Collapse>
+              ),(
+                <Divider key={'Divider-'+i} />
+              )]
+            }
           })}
         </List>
       </GridPaper>

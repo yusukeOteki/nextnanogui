@@ -273,14 +273,9 @@ class PrimarySearchAppBar extends React.Component {
             </Typography>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {/*               <FilePicker extensions={['json', 'in']}
-                onChange={FileObject => this.handleOpenFile(FileObject)}
-                onError={errMsg => (console.log(errMsg))}
-              > */}
               <IconButton color="inherit" onClick={e => this.handleOpenFile(e)} >
                 <FolderOpen />
               </IconButton>
-              {/* </FilePicker> */}
               <IconButton color="inherit" onClick={e => this.handleSaveJson(e)} >
                 <Save />
               </IconButton>

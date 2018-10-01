@@ -1,4 +1,3 @@
-const electron = require('electron');
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
@@ -12,39 +11,7 @@ const client = require('electron-connect').client;
 const loadDevtool = require('electron-load-devtool');
 
 var ipc = require('electron').ipcMain;
-var directoryPath = ""; //初期値
-var filePath = "";
-var album = null;
-var index = 0;
-let regexp = /.*\.(jpg|jpeg|png|gif)$/i;
-
-function fileRead() {
-    if (!album) {
-        album = fs.readdirSync(directoryPath);
-        album = album.map(function (file) {
-            if (fs.statSync(directoryPath + "/" + file).isDirectory()) {
-                return ({
-                    "name": file,
-                    "contents": fs.readdirSync(directoryPath + "/" + file).filter(function (file2) { return regexp.test(file2) })
-                })
-            } else {
-                if (regexp.test(file)) { return file };
-            }
-        });
-    }
-    console.log(album)
-    filePath = directoryPath + "/" + album[index];
-    index += 1;
-    if (index >= album.length) {
-        index = 0;
-    }
-}
-
-ipc.on('mul-async', function (event) {
-    // console.log(arg);
-    fileRead();
-    event.sender.send('mul-async-replay', filePath);
-});
+let regexp = /.*\.(dat)$/i;
 
 ipc.on('mul-async-dialog', function (event, arg) {
     if (!arg) { return; } // cancel selected
@@ -56,26 +23,28 @@ ipc.on('mul-async-dialog', function (event, arg) {
                 "type": "directory",
                 "name": file,
                 "opened": false,
-                "contents": fs.readdirSync(directoryPath + "/" + file).map(function (file2) { return ({
-                    "type": "file",
-                    "name": file2,
-                    "checked": false
-                })})
+                "contents": fs.readdirSync(directoryPath + "/" + file).map(function (file2) {
+                    if (/.*\.(dat)$/i.test(file2)) {
+                        return ({
+                            "type": "file",
+                            "name": file2,
+                            "checked": false
+                        })
+                    }
+                }).filter(item => item)
             })
-        } else {
+        } else if (/.*\.(dat)$/i.test(file)) {
             return ({
                 "type": "file",
                 "name": file,
                 "checked": false
             })
         }
-    });
+    }).filter(item => item && (item.type === 'file' || (item.type === 'directory' && item.contents.length) ) );
     event.sender.send('mul-async-dialog-replay', directoryPath, album);
 });
 
 ipc.on('saveInputFile', function (event, arg, content) {
-    console.log(arg)
-    console.log(content)
     fs.writeFileSync(arg, content, 'utf8')
     //event.sender.send('openInputFile-replay', arg[0], JSON.stringify(JSON.parse(fs.readFileSync(arg[0], 'utf8'))));
 });
@@ -98,7 +67,7 @@ function createWindow() {
         bounds_info = { width: 1200, height: 1000 };  // デフォルトバリュー
     }
     win = new BrowserWindow(bounds_info);
-    
+
     win.setMenu(null);
 
     //アプリケーションのindex.htmlをロードします。

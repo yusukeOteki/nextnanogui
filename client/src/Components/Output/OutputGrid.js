@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 
 import OutputList from './OutputList'
 import DataList from './DataList'
-import "@babel/polyfill";
+import ChartGrid from './ChartGrid'
 
 const { ipcRenderer } = window.require('electron');
 
@@ -31,7 +31,7 @@ class OutputGrid extends React.Component {
 
   }
 
-  async componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     let output = JSON.parse(JSON.stringify(nextProps.output));
     let data = {
       path: output.directoryPath,
@@ -45,7 +45,7 @@ class OutputGrid extends React.Component {
           data.list.push({
             name: item.name,
             checked: item.checked,
-            display: false,
+            opened: true,
             raw: this.ShapingDat(ipcRenderer.sendSync('readDat', data.path + '\\' + item.name)),
           })
         }
@@ -56,6 +56,7 @@ class OutputGrid extends React.Component {
             data.list.push({
               name: item.name + '\\' + item2.name,
               checked: item2.checked,
+              opened: true,
               display: false,
               raw: this.ShapingDat(ipcRenderer.sendSync('readDat', data.path + '\\' + item.name + '\\' + item2.name)),
             })
@@ -76,8 +77,8 @@ class OutputGrid extends React.Component {
         return {
           xLabel: tempItems[0][0],
           yLabel: item,
-          xData: [],
-          yData: []
+          data: [],
+          display: false
         }
       }
     }).filter(item => item);
@@ -87,8 +88,10 @@ class OutputGrid extends React.Component {
       if(tempItem.length){
         for(let j = 0; j < results.length; j++){
           let row = results[j];
-          row.xData.push(tempItem[0]);
-          row.yData.push(tempItem[j+1]);
+          row.data.push({
+            x: tempItem[0],
+            y: tempItem[j+1],
+          });
         }
       }
     }
@@ -101,13 +104,16 @@ class OutputGrid extends React.Component {
       for (let i = 0; i < data.list.length; i++) {
         if (data.list[i].name === item) {
           data.list[i].checked = !data.list[i].checked;
+          for(let j = 0; j < data.list[i].raw.length; j++ ){
+            data.list[i].raw[j].display = data.list[i].checked;
+          }
         }
       }
     }
     this.setState({ output, data });
   }
 
-  changeData(data) {
+  changeData(data, i, j) {
     this.setState({ data });
   }
 
@@ -118,7 +124,7 @@ class OutputGrid extends React.Component {
       <Grid container className={classes.root}>
         <OutputList output={output} xs={3} onEventCallBack={this.changeOutput} />
         <DataList data={data} xs={3} onEventCallBack={this.changeData} />
-        {/*         <ParametersList output={output} xs={6} onEventCallBack={this.changeData} /> */}
+        <ChartGrid data={data} xs={6} />
       </Grid>
     );
   }
