@@ -9,7 +9,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Collapse from '@material-ui/core/Collapse';
 import FolderIcon from '@material-ui/icons/Folder';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import Checkbox from '@material-ui/core/Checkbox';
 import Divider from '@material-ui/core/Divider';
 
@@ -32,12 +31,6 @@ class OutputList extends Component {
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClickCheck = this.handleClickCheck.bind(this);
   }
-
-  /*   componentWillReceiveProps(nextProps) {
-      let output = JSON.parse(JSON.stringify(nextProps.output));
-      this.setState({ output });
-  
-    } */
 
   shouldComponentUpdate(nextProps, nextState) {
     /* for(let key in nextProps){
@@ -89,7 +82,6 @@ class OutputList extends Component {
             return [(
               <ListItem key={`file-${i}`} button>
                 {item.type === 'directory' ? <ListItemIcon><FolderIcon /></ListItemIcon> : <Checkbox checked={item.checked} onClick={e => this.handleClickCheck(e, i)} />}
-                {/* <ListItemIcon>{item.type === 'directory' ? <DraftsIcon /> : <FolderIcon />}</ListItemIcon> */}
                 <ListItemText primary={`${item.name}`} onClick={e => this.handleClickOpen(e, i)} />
               </ListItem>
             ), (
@@ -100,7 +92,6 @@ class OutputList extends Component {
                       return (
                         <ListItem key={`file-${i}-${j}`} button onClick={e => this.handleClickCheck(e, i, j)}>
                           <Checkbox checked={content.checked} />
-                          {/* <ListItemIcon><FolderIcon /></ListItemIcon> */}
                           <ListItemText primary={`${content.name}`} />
                         </ListItem>
                       )

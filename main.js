@@ -50,7 +50,7 @@ ipc.on('saveInputFile', function (event, arg, content) {
 });
 
 ipc.on('openInputFile', function (event, arg) {
-    event.sender.send('openInputFile-replay', arg[0], JSON.stringify(JSON.parse(fs.readFileSync(arg[0], 'utf8'))));
+    event.sender.send('openInputFile-replay', arg[0], fs.readFileSync(arg[0], 'utf8'));
 });
 
 ipc.on('readDat', function (event, arg) {

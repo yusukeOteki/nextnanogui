@@ -148,112 +148,35 @@ class PrimarySearchAppBar extends React.Component {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
-  handleSaveJson(e) {
-    if (this.props.mode === "input") {
-      let options = {
-        title: "Save  json input file",
-        defaultPath: 'filename.json',
-        filters: [
-          { name: 'nextnano3', extensions: ['json'] },
-        ]
-      };
-      let that = this;
-      dialog.showSaveDialog(options, function (filename) {
-        if (!filename) return false;
-        ipcRenderer.send('saveInputFile', filename, that.props.jsonfile);
-      });
-    }else if(this.props.mode === "output"){
-      let options = {
-        title: "Save  json output file",
-        defaultPath: 'outputData.json',
-        filters: [
-          { name: 'nextnano3', extensions: ['json'] },
-        ]
-      };
-      let that = this;
-      dialog.showSaveDialog(options, function (filename) {
-        if (!filename) return false;
-        ipcRenderer.send('saveInputFile', filename, JSON.stringify({output: that.props.output, data: that.props.data}));
-      });
-    }
-  };
-
-  handleSaveN3(e) {
-    if (this.props.mode === "input") {
-      let options = {
-        title: "Save nextnano3 input file",
-        defaultPath: 'filename.in',
-        filters: [
-          { name: 'nextnano3', extensions: ['in'] },
-        ]
-      };
-      let that = this;
-      dialog.showSaveDialog(options, function (filename) {
-        if (!filename) return false;
-        ipcRenderer.send('saveInputFile', filename, that.props.n3file);
-      });
-    }else{
-      let options = {
-        title: "Save dat file",
-        defaultPath: 'filename.dat',
-        filters: [
-          { name: 'nextnano3', extensions: ['dat'] },
-        ]
-      };
-      let that = this;
-      dialog.showSaveDialog(options, function (filename) {
-        if (!filename) return false;
-        ipcRenderer.send('saveInputFile', filename, that.props.outputDat);
-      });
-    }
-  };
-
   handleCreateFile(e) {
     if (this.props.mode === "input") {
-      //initial
+      this.props.onEventCallBack('inputInitialize')
     }else if(this.props.mode === "output"){
-      let options = {
-        title: "Open folder",
-        properties: ['openDirectory']
-      };
-      let that = this;
-      dialog.showOpenDialog(options, function (filenames) {
-        ipcRenderer.send('mul-async-dialog', filenames);
-        ipcRenderer.on('mul-async-dialog-replay', (event, directoryPath, directoryContents, isOutputData) => {
-            that.props.onEventCallBack({ output: {directoryPath, directoryContents}, data: [], isOutputData: 0}, 'output');
-        });
-      });
+      this.props.onEventCallBack('outputInitialize')
     }
   }
 
   handleOpenFile(e) {
     if (this.props.mode === "input") {
-      let options = {
-        title: "Open folder",
-        properties: ['openFile'],
-      };
-      let that = this;
-      dialog.showOpenDialog(options, function (filename) {
-        if (!filename) return false;
-        ipcRenderer.send('openInputFile', filename);
-        ipcRenderer.on('openInputFile-replay', (event, path, content) => {
-          that.props.onEventCallBack(content, path.split('.')[path.split('.').length - 1])
-        });
-      });
+      this.props.onEventCallBack('inputUpdate')
     }else if(this.props.mode === "output"){
-      let options = {
-        title: "Open folder",
-        properties: ['openFile'],
-      };
-      let that = this;
-      dialog.showOpenDialog(options, function (filename) {
-        if (!filename) return false;
-        ipcRenderer.send('openInputFile', filename);
-        ipcRenderer.on('openInputFile-replay', (event, path, content) => {
-          let outputData = JSON.parse(content);
-          that.props.onEventCallBack({ output: outputData.output, data: outputData.data, isOutputData: 1 }, 'output');
-        });
-      });
+      this.props.onEventCallBack('outputUpdate')
+    }
+  };
+
+  handleSaveJson(e) {
+    if (this.props.mode === "input") {
+      this.props.onEventCallBack('inputSave');
+    }else if(this.props.mode === "output"){
+      this.props.onEventCallBack('outputSave');
+    }
+  };
+
+  handleSaveN3(e) {
+    if (this.props.mode === "input") {
+      this.props.onEventCallBack('inputExport');
+    }else{
+      this.props.onEventCallBack('outputExport');
     }
   };
 

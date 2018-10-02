@@ -56,13 +56,6 @@ class ParametersTableHead extends React.Component {
               </CustomTableCell>
             );
           }, this)}
-          {/*<CustomTableCell padding="checkbox">
-            <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={numSelected === rowCount}
-              onChange={onSelectAllClick}
-            />
-        </CustomTableCell>*/}
         </TableRow>
       </TableHead>
     );

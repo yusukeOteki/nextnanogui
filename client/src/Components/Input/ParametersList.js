@@ -66,9 +66,6 @@ class ParametersList extends Component {
               <Divider key={item+'Divider'} />
             ),(
             <ListItem key={item+'ListItem'} button onClick={e => this.handleClickCheck(e, item)}>
-              {/*<ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>*/}
               <ListItemText 
                 primary={
                   <Typography variant="body2" color='error'>
@@ -89,9 +86,6 @@ class ParametersList extends Component {
                 {Object.keys(keywords[item].properties).map(property => {
                   return (
                     <ListItem key={property+'ListItem'} button className={classes.nested}>
-                      {/*<ListItemIcon>
-                        <StarBorder />
-                      </ListItemIcon>*/}
                       <ListItemText
                         primary={
                           <Typography variant="body2" color='default'>

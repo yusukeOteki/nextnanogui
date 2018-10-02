@@ -181,7 +181,6 @@ class ParametersTables extends React.Component {
                 key={`${item}`}
                 keyword={`${this.props.keywords[item].section}`}
                 keywords={this.props.keywords}
-                //input={this.props.input}
                 data={this.state.data[item]}
                 onEventCallBack={this.changeData}
                 selected={this.state.selected[item]}

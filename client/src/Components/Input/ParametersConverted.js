@@ -12,12 +12,6 @@ function converting(input){
     if(input[key].selected){
         converted += '!********************************************************************************!\n'
         converted += '$'+input[key].section+'\n'
-        /*for(let prop in input[key].properties){
-          if(input[key].properties[prop].selected){
-            let value = input[key].properties[prop].value
-            converted += `  ${prop}${' '.repeat(50-prop.length)}= ${typeof value === 'object' ? value.join(' ') : value.toString()}\n`
-          }
-        }*/
         for(let i = 0; i < input[key].list.length; i++){
           for(let prop in input[key].list[i].properties){
             if(input[key].list[i].properties[prop].selected){
@@ -33,7 +27,6 @@ function converting(input){
   }
   return converted;
 }
-
 
 const styles = theme => ({
   root: {

@@ -1,4 +1,4 @@
-import { keywords } from '../Components/Params';
+import { keywords } from './Params';
 
 const createInitialInput = () => {
     let initialInput = {};

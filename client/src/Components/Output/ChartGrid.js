@@ -32,41 +32,19 @@ class ChartGrid extends Component {
 
   componentWillReceiveProps(nextProps) {
     let data = JSON.parse(JSON.stringify(nextProps.data));
-    //console.log(data)
     let json = [];
     data.list.map(item => {
       item.raw.map(content => {
         if(content.display) json.push(content);
       })
     });
-    //console.log(json)
-    let left = Math.min(...json.map(item => 
-        Math.min(...item.data.map(d =>
-          d.x
-        ))
-      )
-    )
+    let left = Math.min(...json.map(item => Math.min(...item.data.map(d => d.x ))))
     left = left == Infinity ? 1 : left;
-    let right = Math.max(...json.map(item => 
-        Math.max(...item.data.map(d =>
-          d.x
-        ))
-      )
-    )
+    let right = Math.max(...json.map(item => Math.max(...item.data.map(d => d.x))))
     right = right == -Infinity ? 0 : right;
-    let bottom = Math.min(...json.map(item => 
-        Math.min(...item.data.map(d =>
-          d.y
-        ))
-      )
-    )
+    let bottom = Math.min(...json.map(item => Math.min(...item.data.map(d => d.y))))
     bottom = bottom == Infinity ? 0 : Math.floor(bottom*10)/10;
-    let top = Math.max(...json.map(item => 
-        Math.max(...item.data.map(d =>
-          d.y
-        ))
-      )
-    )
+    let top = Math.max(...json.map(item => Math.max(...item.data.map(d => d.y))))
     top = top == -Infinity ? 1 : Math.ceil(top*10)/10;
     this.setState({ json, right, left, bottom, top });
   }
