@@ -17,40 +17,31 @@ ipc.on('mul-async-dialog', function (event, arg) {
     if (!arg) { return; } // cancel selected
     const directoryPath = arg[0];
     let album = fs.readdirSync(directoryPath);
-    console.log(album)
-    let isOutputData = album.find(item => {
-        return item === "outputData.json"
-    })
-    if (isOutputData === "outputData.json") {
-        let outputData = fs.readFileSync(directoryPath + "/" + "outputData.json", 'utf8')
-        event.sender.send('mul-async-dialog-replay', directoryPath, outputData, 1);
-    } else {
-        album = album.map(function (file) {
-            if (fs.statSync(directoryPath + "/" + file).isDirectory()) {
-                return ({
-                    "type": "directory",
-                    "name": file,
-                    "opened": false,
-                    "contents": fs.readdirSync(directoryPath + "/" + file).map(function (file2) {
-                        if (/.*\.(dat)$/i.test(file2)) {
-                            return ({
-                                "type": "file",
-                                "name": file2,
-                                "checked": false
-                            })
-                        }
-                    }).filter(item => item)
-                })
-            } else if (/.*\.(dat)$/i.test(file)) {
-                return ({
-                    "type": "file",
-                    "name": file,
-                    "checked": false
-                })
-            }
-        }).filter(item => item && (item.type === 'file' || (item.type === 'directory' && item.contents.length)));
-        event.sender.send('mul-async-dialog-replay', directoryPath, album, 0);
-    }
+    album = album.map(function (file) {
+        if (fs.statSync(directoryPath + "/" + file).isDirectory()) {
+            return ({
+                "type": "directory",
+                "name": file,
+                "opened": false,
+                "contents": fs.readdirSync(directoryPath + "/" + file).map(function (file2) {
+                    if (/.*\.(dat)$/i.test(file2)) {
+                        return ({
+                            "type": "file",
+                            "name": file2,
+                            "checked": false
+                        })
+                    }
+                }).filter(item => item)
+            })
+        } else if (/.*\.(dat)$/i.test(file)) {
+            return ({
+                "type": "file",
+                "name": file,
+                "checked": false
+            })
+        }
+    }).filter(item => item && (item.type === 'file' || (item.type === 'directory' && item.contents.length)));
+    event.sender.send('mul-async-dialog-replay', directoryPath, album, 0);
 });
 
 ipc.on('saveInputFile', function (event, arg, content) {

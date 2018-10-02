@@ -19,6 +19,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Undo from '@material-ui/icons/Undo';
 import Redo from '@material-ui/icons/Redo';
+import CreateNewFolder from '@material-ui/icons/CreateNewFolder';
 import FolderOpen from '@material-ui/icons/FolderOpen';
 import Save from '@material-ui/icons/Save';
 import Edit from '@material-ui/icons/Edit';
@@ -116,6 +117,7 @@ class PrimarySearchAppBar extends React.Component {
     this.handleMobileMenuClose = this.handleMobileMenuClose.bind(this);
     this.handleSaveJson = this.handleSaveJson.bind(this);
     this.handleSaveN3 = this.handleSaveN3.bind(this);
+    this.handleCreateFile = this.handleCreateFile.bind(this);
     this.handleOpenFile = this.handleOpenFile.bind(this);
   }
 
@@ -179,7 +181,7 @@ class PrimarySearchAppBar extends React.Component {
   handleSaveN3(e) {
     if (this.props.mode === "input") {
       let options = {
-        title: "Save  nextnano3 input file",
+        title: "Save nextnano3 input file",
         defaultPath: 'filename.in',
         filters: [
           { name: 'nextnano3', extensions: ['in'] },
@@ -190,8 +192,39 @@ class PrimarySearchAppBar extends React.Component {
         if (!filename) return false;
         ipcRenderer.send('saveInputFile', filename, that.props.n3file);
       });
+    }else{
+      let options = {
+        title: "Save dat file",
+        defaultPath: 'filename.dat',
+        filters: [
+          { name: 'nextnano3', extensions: ['dat'] },
+        ]
+      };
+      let that = this;
+      dialog.showSaveDialog(options, function (filename) {
+        if (!filename) return false;
+        ipcRenderer.send('saveInputFile', filename, that.props.outputDat);
+      });
     }
   };
+
+  handleCreateFile(e) {
+    if (this.props.mode === "input") {
+
+    }else if(this.props.mode === "output"){
+      let options = {
+        title: "Open folder",
+        properties: ['openDirectory']
+      };
+      let that = this;
+      dialog.showOpenDialog(options, function (filenames) {
+        ipcRenderer.send('mul-async-dialog', filenames);
+        ipcRenderer.on('mul-async-dialog-replay', (event, directoryPath, directoryContents, isOutputData) => {
+            that.props.onEventCallBack({ output: {directoryPath, directoryContents}, data: [], isOutputData: 0}, 'output');
+        });
+      });
+    }
+  }
 
   handleOpenFile(e) {
     if (this.props.mode === "input") {
@@ -210,18 +243,15 @@ class PrimarySearchAppBar extends React.Component {
     }else if(this.props.mode === "output"){
       let options = {
         title: "Open folder",
-        properties: ['openDirectory']
+        properties: ['openFile'],
       };
       let that = this;
-      dialog.showOpenDialog(options, function (filenames) {
-        ipcRenderer.send('mul-async-dialog', filenames);
-        ipcRenderer.on('mul-async-dialog-replay', (event, directoryPath, directoryContents, isOutputData) => {
-          if(isOutputData){
-            let outputData = JSON.parse(directoryContents);
-            that.props.onEventCallBack({ output: outputData.output, data: outputData.data, isOutputData: 1 }, 'output');
-          }else{
-            that.props.onEventCallBack({ output: {directoryPath, directoryContents}, data: [], isOutputData: 0}, 'output');
-          }
+      dialog.showOpenDialog(options, function (filename) {
+        if (!filename) return false;
+        ipcRenderer.send('openInputFile', filename);
+        ipcRenderer.on('openInputFile-replay', (event, path, content) => {
+          let outputData = JSON.parse(content);
+          that.props.onEventCallBack({ output: outputData.output, data: outputData.data, isOutputData: 1 }, 'output');
         });
       });
     }
@@ -291,6 +321,9 @@ class PrimarySearchAppBar extends React.Component {
             </Typography>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
+              <IconButton color="inherit" onClick={e => this.handleCreateFile(e)} >
+                <CreateNewFolder />
+              </IconButton>
               <IconButton color="inherit" onClick={e => this.handleOpenFile(e)} >
                 <FolderOpen />
               </IconButton>

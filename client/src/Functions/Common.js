@@ -69,4 +69,81 @@ const convertN3toJson = (n3) => {
     return initialInput;
 }
 
-export { createInitialInput, convertN3toJson }
+const convertDatatoDat = (data) => {
+    if(!data.length) return '';
+    let json = [];
+    data.list.map(item => {
+        item.raw.map(content => {
+            if (content.display) json.push(content);
+        })
+    });
+    let xArray = json.map(item => item.data.map(d => d.x))
+    let reduced = xArray.filter((x, i, self) => {
+        for (let j = 0; j < i; j++) {
+            if (x.toString() === self[j].toString()) {
+                return false
+            };
+        }
+        return true;
+    });
+    let xArrayList = [];
+    for (let i = 0; i < reduced.length; i++) {
+        for (let j = 0; j < reduced[i].length; j++) {
+            xArrayList.push(reduced[i][j])
+        }
+    }
+
+    let tables = [];
+    for (let i = 0; i < json.length; i++) {
+        tables.push([]);
+        for (let j = 0; j < json.length; j++) {
+            tables[i].push([])
+            for (let k = 0; k < json[i].data.length; k++) {
+                if (i === j) {
+                    tables[i][j].push(json[j].data[k].y)
+                } else {
+                    tables[i][j].push('')
+                }
+            }
+        }
+    }
+    let newTable = [];
+    for (let i = 0; i < xArray.length; i++) {
+        for (let j = 0; j < reduced.length; j++) {
+            if (xArray[i].toString() === reduced[j].toString()) {
+                if (newTable.length-1 < j) {
+                    newTable.push(tables[i]);
+                } else {
+                    for (let k = 0; k < tables[i].length; k++) {
+                        for (let l = 0; l < tables[i][k].length; l++) {
+                            if (tables[i][k][l] !== '') {
+                                newTable[j][k][l] = tables[i][k][l];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    let lastTable = [];
+    lastTable.push([json[0].xLabel, ...xArrayList]);
+    for (let i = 0; i < xArray.length; i++) {
+        let tempRaw = [json[i].yLabel];
+        for (let j = 0; j < reduced.length; j++) {
+            Array.prototype.push.apply(tempRaw, newTable[j][i])
+        }
+        lastTable.push(tempRaw)
+    }
+    let tsv = '';
+    for (let i = 0; i < lastTable[0].length; i++) {
+        let line = '';
+        for (let j = 0; j < lastTable.length; j++) {
+            line += (lastTable[j][i] === '' ? '' : lastTable[j][i]) + (j != lastTable.length - 1 ? '\t' : '');
+        }
+        line += i != lastTable[0].length - 1 ? '\n' : '';
+        tsv += line;
+    }
+    return tsv;
+}
+
+export { createInitialInput, convertN3toJson, convertDatatoDat }

@@ -6,7 +6,7 @@ import OutputGrid from './Components/Output/OutputGrid'
 import Tabs from './Components/Tabs';
 
 import { keywords, keywordsList } from './Components/Params';
-import { createInitialInput, convertN3toJson } from './Functions/Common';
+import { createInitialInput, convertN3toJson, convertDatatoDat } from './Functions/Common';
 
 export default class Index extends React.Component {
   constructor(props) {
@@ -29,6 +29,7 @@ export default class Index extends React.Component {
       mode: "output",
       output: {},
       data: {},
+      outputDat: '',
     };
 
     this.changeFile = this.changeFile.bind(this);
@@ -51,7 +52,7 @@ export default class Index extends React.Component {
     }
     if (type === "in") this.setState({ n3file: changedfile, input: convertN3toJson(changedfile) });
     if (type === "output") {
-      this.setState({ output: changedfile.output, data: changedfile.data })
+      this.setState({ output: changedfile.output, data: changedfile.data, outputDat: convertDatatoDat(changedfile.data) })
     };
   }
 
@@ -61,7 +62,8 @@ export default class Index extends React.Component {
   }
 
   changeOutputData(output, data) {
-    this.setState({output, data});
+    let outputDat = convertDatatoDat(data);
+    this.setState({output, data, outputDat});
   }
 
   _changeMode(mode) {
@@ -69,13 +71,13 @@ export default class Index extends React.Component {
   }
 
   render() {
-    const { jsonfile, n3file, input, output, data, counter, mode } = this.state;
+    const { jsonfile, n3file, input, output, data, outputDat, counter, mode } = this.state;
     return (
       /*       <div>
               <ListTest />
             </div> */
       <div className="App" style={{ height: '100%' }}>
-        <AppBar jsonfile={jsonfile} n3file={n3file} output={output} data={data} mode={mode} onEventCallBack={this.changeFile} changeMode={this._changeMode} />
+        <AppBar jsonfile={jsonfile} n3file={n3file} output={output} data={data} mode={mode} outputDat={outputDat} onEventCallBack={this.changeFile} changeMode={this._changeMode} />
         {mode === "input" && <InputGrid input={input} counter={counter} keywords={keywords} keywordsList={keywordsList} onEventCallBack={this.changeData} />}
         {mode === "output" && <OutputGrid output={output} data={data} counter={counter} keywords={keywords} keywordsList={keywordsList} onEventCallBack={this.changeOutputData} />}
         <Tabs />
