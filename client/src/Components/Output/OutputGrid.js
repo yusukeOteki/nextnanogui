@@ -33,32 +33,36 @@ class OutputGrid extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     let output = JSON.parse(JSON.stringify(nextProps.output));
-    let data = {
-      path: output.directoryPath,
-      list: [],
-    };
-    
-    for (let i = 0; i < output.directoryContents.length; i++) {
-      let item = output.directoryContents[i];
-      if (item.type === 'file') {
-        if (item.name.split('.')[item.name.split('.').length - 1] === 'dat') {
-          data.list.push({
-            name: item.name,
-            checked: item.checked,
-            opened: true,
-            raw: this.ShapingDat(ipcRenderer.sendSync('readDat', data.path + '\\' + item.name)),
-          })
-        }
-      } else {
-        for (let j = 0; j < item.contents.length; j++) {
-          let item2 = item.contents[j];
-          if (item2.name.split('.')[item2.name.split('.').length - 1] === 'dat') {
+    let data = JSON.parse(JSON.stringify(nextProps.data))
+
+    if (0 === Object.keys(data).length) {
+      data = {
+        path: output.directoryPath,
+        list: [],
+      };
+
+      for (let i = 0; i < output.directoryContents.length; i++) {
+        let item = output.directoryContents[i];
+        if (item.type === 'file') {
+          if (item.name.split('.')[item.name.split('.').length - 1] === 'dat') {
             data.list.push({
-              name: item.name + '\\' + item2.name,
-              checked: item2.checked,
+              name: item.name,
+              checked: item.checked,
               opened: true,
-              raw: this.ShapingDat(ipcRenderer.sendSync('readDat', data.path + '\\' + item.name + '\\' + item2.name)),
+              raw: this.ShapingDat(ipcRenderer.sendSync('readDat', data.path + '\\' + item.name)),
             })
+          }
+        } else {
+          for (let j = 0; j < item.contents.length; j++) {
+            let item2 = item.contents[j];
+            if (item2.name.split('.')[item2.name.split('.').length - 1] === 'dat') {
+              data.list.push({
+                name: item.name + '\\' + item2.name,
+                checked: item2.checked,
+                opened: true,
+                raw: this.ShapingDat(ipcRenderer.sendSync('readDat', data.path + '\\' + item.name + '\\' + item2.name)),
+              })
+            }
           }
         }
       }
@@ -68,29 +72,29 @@ class OutputGrid extends React.Component {
 
   ShapingDat(raw) {
     let tempRows = raw.split(/\r\n/)
-    let tempItems = tempRows.map(row => 
+    let tempItems = tempRows.map(row =>
       row.split(/\s+/).filter(item => item)
     )
     let results = tempItems[0].map((item, i) => {
-      if(i>0){
+      if (i > 0) {
         return {
           xLabel: tempItems[0][0],
           yLabel: item,
           data: [],
           display: false,
-          color: "#"+Math.floor(Math.random() * Math.floor(256)).toString(16)+Math.floor(Math.random() * Math.floor(256)).toString(16)+Math.floor(Math.random() * Math.floor(256)).toString(16)
+          color: "#" + Math.floor(Math.random() * Math.floor(256)).toString(16) + Math.floor(Math.random() * Math.floor(256)).toString(16) + Math.floor(Math.random() * Math.floor(256)).toString(16)
         }
       }
     }).filter(item => item);
 
-    for(let i = 1; i < tempItems.length; i++){
+    for (let i = 1; i < tempItems.length; i++) {
       let tempItem = tempItems[i];
-      if(tempItem.length){
-        for(let j = 0; j < results.length; j++){
+      if (tempItem.length) {
+        for (let j = 0; j < results.length; j++) {
           let row = results[j];
           row.data.push({
             x: tempItem[0],
-            y: tempItem[j+1],
+            y: tempItem[j + 1],
             yLabel: results[0].yLabel,
           });
         }
@@ -105,17 +109,19 @@ class OutputGrid extends React.Component {
       for (let i = 0; i < data.list.length; i++) {
         if (data.list[i].name === item) {
           data.list[i].checked = !data.list[i].checked;
-          for(let j = 0; j < data.list[i].raw.length; j++ ){
+          for (let j = 0; j < data.list[i].raw.length; j++) {
             data.list[i].raw[j].display = data.list[i].checked;
           }
         }
       }
     }
     this.setState({ output, data });
+    this.props.onEventCallBack(output, data)
   }
 
   changeData(data, i, j) {
     this.setState({ data });
+    this.props.onEventCallBack(this.state.output, data)
   }
 
   render() {

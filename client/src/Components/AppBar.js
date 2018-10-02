@@ -160,6 +160,19 @@ class PrimarySearchAppBar extends React.Component {
         if (!filename) return false;
         ipcRenderer.send('saveInputFile', filename, that.props.jsonfile);
       });
+    }else if(this.props.mode === "output"){
+      let options = {
+        title: "Save  json output file",
+        defaultPath: 'outputData.json',
+        filters: [
+          { name: 'nextnano3', extensions: ['json'] },
+        ]
+      };
+      let that = this;
+      dialog.showSaveDialog(options, function (filename) {
+        if (!filename) return false;
+        ipcRenderer.send('saveInputFile', filename, JSON.stringify({output: that.props.output, data: that.props.data}));
+      });
     }
   };
 
@@ -202,8 +215,13 @@ class PrimarySearchAppBar extends React.Component {
       let that = this;
       dialog.showOpenDialog(options, function (filenames) {
         ipcRenderer.send('mul-async-dialog', filenames);
-        ipcRenderer.on('mul-async-dialog-replay', (event, directoryPath, directoryContents) => {
-          that.props.onEventCallBack({ directoryPath, directoryContents }, 'output');
+        ipcRenderer.on('mul-async-dialog-replay', (event, directoryPath, directoryContents, isOutputData) => {
+          if(isOutputData){
+            let outputData = JSON.parse(directoryContents);
+            that.props.onEventCallBack({ output: outputData.output, data: outputData.data, isOutputData: 1 }, 'output');
+          }else{
+            that.props.onEventCallBack({ output: {directoryPath, directoryContents}, data: [], isOutputData: 0}, 'output');
+          }
         });
       });
     }
