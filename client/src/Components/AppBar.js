@@ -210,7 +210,7 @@ class PrimarySearchAppBar extends React.Component {
 
   handleCreateFile(e) {
     if (this.props.mode === "input") {
-
+      //initial
     }else if(this.props.mode === "output"){
       let options = {
         title: "Open folder",
