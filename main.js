@@ -1,17 +1,13 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const url = require('url');
 const fs = require("fs");
 
 let win;
 const info_path = path.join(__dirname, '/userData.json');
-
 const client = require('electron-connect').client;
-
 const loadDevtool = require('electron-load-devtool');
-
 var ipc = require('electron').ipcMain;
-let regexp = /.*\.(dat)$/i;
 
 ipc.on('mul-async-dialog', function (event, arg) {
     if (!arg) { return; } // cancel selected
@@ -89,7 +85,7 @@ function createWindow() {
     });
 
     win.webContents.openDevTools();
-
+    
     client.create(win);
 }
 //このメソッドは、Electronが初期化を終了し、ブラウザウィンドウを作成する準備ができたときに呼び出されます。

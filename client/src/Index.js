@@ -1,4 +1,5 @@
 import React from "react";
+import key from 'keymaster'
 
 import AppBar from './Components/AppBar';
 import InputGrid from './Components/Input/InteractiveGrid';
@@ -9,6 +10,7 @@ import { keywords, keywordsList } from './Functions/Params';
 import { createInitialInput, convertN3toJson, convertDatatoDat } from './Functions/Common';
 
 const { ipcRenderer } = window.require('electron');
+const remote = window.require('electron').remote;
 const { dialog } = window.require('electron').remote;
 
 export default class Index extends React.Component {
@@ -39,6 +41,8 @@ export default class Index extends React.Component {
     this.changeData = this.changeData.bind(this);
     this.changeOutputData = this.changeOutputData.bind(this);
     this._changeMode = this._changeMode.bind(this);
+    this.keyPress = this.keyPress.bind(this);
+    key('ctrl+e, ctrl+i, ctrl+o, ctrl+s, ctrl+w', (event, handler) => this.keyPress(event, handler));
   }
 
   changeFile(type) {
@@ -167,6 +171,41 @@ export default class Index extends React.Component {
         ipcRenderer.send('saveInputFile', filename, that.state.outputDat);
       });
     }
+  }
+
+  keyPress(event, handler) {
+    let key = handler.key;
+    let mode = this.state.mode;
+    console.log(handler.key);
+    if(key === 'ctrl+o'){
+      if(mode === 'input'){
+        this.changeFile('inputInitialize');
+      }else if(mode === 'output'){
+        this.changeFile('outputInitialize');
+      }
+    }else if(key === 'ctrl+i'){
+      if(mode === 'input'){
+        this.changeFile('inputUpdate');
+      }else if(mode === 'output'){
+        this.changeFile('outputUpdate');
+      }
+    }else if(key === 'ctrl+s'){
+      if(mode === 'input'){
+        this.changeFile('inputSave');
+      }else if(mode === 'output'){
+        this.changeFile('outputSave');
+      }
+    }else if(key === 'ctrl+e'){
+      if(mode === 'input'){
+        this.changeFile('inputExport');
+      }else if(mode === 'output'){
+        this.changeFile('outputExport');
+      }
+    }else if(key === 'ctrl+w'){
+      remote.getCurrentWindow();
+      window.close();
+    }
+
   }
 
   changeData(changedData, type, counter) {
