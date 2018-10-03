@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+import { keywords, keywordsList } from '../../Functions/Params';
 import GridPaper from '../GridPaper'
 import ParametersTable from './ParametersTable'
 
@@ -28,21 +29,21 @@ class ParametersTables extends React.Component {
     super(props);
     /* Data */
     let data = {};
-    for (let i = 0; i < props.keywordsList.length; i++) {
-      if (props.input[props.keywordsList[i]].selected) {
-        data[props.keywordsList[i]] = [];
-        for (let j = 0; j < props.input[props.keywordsList[i]].list.length; j++) {
-          data[props.keywordsList[i]].push([])
-          for (let prop in props.input[props.keywordsList[i]].list[j].properties) {
-            data[props.keywordsList[i]][j].push(
+    for (let i = 0; i < keywordsList.length; i++) {
+      if (props.input[keywordsList[i]].selected) {
+        data[keywordsList[i]] = [];
+        for (let j = 0; j < props.input[keywordsList[i]].list.length; j++) {
+          data[keywordsList[i]].push([])
+          for (let prop in props.input[keywordsList[i]].list[j].properties) {
+            data[keywordsList[i]][j].push(
               createData(
-                props.input[props.keywordsList[i]].list[j].properties[prop].id,
+                props.input[keywordsList[i]].list[j].properties[prop].id,
                 prop,
-                props.input[props.keywordsList[i]].list[j].properties[prop].value,
-                props.input[props.keywordsList[i]].list[j].properties[prop].selected,
-                props.keywordsList[i],
+                props.input[keywordsList[i]].list[j].properties[prop].value,
+                props.input[keywordsList[i]].list[j].properties[prop].selected,
+                keywordsList[i],
                 j,
-                props.input[props.keywordsList[i]].list.length
+                props.input[keywordsList[i]].list.length
               )
             )
           }
@@ -83,7 +84,7 @@ class ParametersTables extends React.Component {
   componentWillReceiveProps(nextProps) {
     //counter = 0;
     let data = {};
-    const { keywordsList, input } = this.props;
+    const { input } = this.props;
     for (let i = 0; i < keywordsList.length; i++) {
       if (input[keywordsList[i]].selected) {
         data[keywordsList[i]] = [];
@@ -149,7 +150,7 @@ class ParametersTables extends React.Component {
     let tempInput = Object.assign({}, this.props.input);
     let counter = this.props.counter;
     if (type === 'add') {
-      let temp = JSON.parse(JSON.stringify(this.props.keywords[changedItem]));
+      let temp = JSON.parse(JSON.stringify(keywords[changedItem]));
       for (let prop in temp.properties) {
         temp.properties[prop].value = temp.properties[prop].default;
         temp.properties[prop].selected = temp.properties[prop].required;
@@ -172,15 +173,14 @@ class ParametersTables extends React.Component {
   render() {
     return (
       <GridPaper xs={this.props.xs}>
-        {this.props.keywordsList.map(item => {
+        {keywordsList.map(item => {
           if (!this.state.data[item]) {
             return ''
           } else {
             return !this.props.input[item].selected ? '' :
               <ParametersTable
                 key={`${item}`}
-                keyword={`${this.props.keywords[item].section}`}
-                keywords={this.props.keywords}
+                keyword={`${keywords[item].section}`}
                 data={this.state.data[item]}
                 onEventCallBack={this.changeData}
                 selected={this.state.selected[item]}

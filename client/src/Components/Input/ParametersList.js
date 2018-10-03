@@ -11,6 +11,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Switch from '@material-ui/core/Switch';
 import Divider from '@material-ui/core/Divider';
 
+import { keywords, keywordsList } from '../../Functions/Params';
 import GridPaper from '../GridPaper'
 
 const styles = theme => ({
@@ -23,9 +24,8 @@ const styles = theme => ({
 });
 
 class ParametersList extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    
     this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
     this.handleClickCheck = this.handleClickCheck.bind(this);
   }
@@ -43,8 +43,8 @@ class ParametersList extends Component {
     //return !stateDiff;
   }
 
-  handleClickCheck (e, item) {
-    if(!this.props.keywords[item].required){
+  handleClickCheck(e, item) {
+    if (!keywords[item].required) {
       let tempInput = JSON.parse(JSON.stringify(this.props.input));
       tempInput[item].selected = !tempInput[item].selected;
       this.props.onEventCallBack(tempInput, this.props.counter);
@@ -52,55 +52,30 @@ class ParametersList extends Component {
   };
 
   render() {
-    const { classes, xs, keywords, keywordsList, input } = this.props;
+    const { classes, xs, input } = this.props;
 
     return (
       <GridPaper xs={xs}>
-        <List
-        component="nav"
-        subheader={<ListSubheader component="div" style={{backgroundColor: 'white'}}>Input Parameters</ListSubheader>}
-        dense={true}
-      >
-        {keywordsList.map(item => {
-          return [(
-              <Divider key={item+'Divider'} />
-            ),(
-            <ListItem key={item+'ListItem'} button onClick={e => this.handleClickCheck(e, item)}>
-              <ListItemText 
-                primary={
-                  <Typography variant="body2" color='error'>
-                    {`$${keywords[item].section}`}
-                  </Typography>
-                }
-              />
-              { keywords[item].required ? '' :
-                <Switch
-                  checked={input[item].selected === true}
-                />
-              }
-            </ListItem>
-          ),
-          (
-            <Collapse key={item+'Collapse'} in={false} timeout="auto" unmountOnExit>
+        <List component="nav" dense={true}
+          subheader={<ListSubheader component="div" style={{ backgroundColor: 'white' }}>Input Parameters</ListSubheader>}
+        >
+          {keywordsList.map(item => [
+            <Divider key={item + 'Divider'} />,
+            <ListItem key={item + 'ListItem'} button onClick={e => this.handleClickCheck(e, item)}>
+              <ListItemText primary={<Typography variant="body2" color='error'>{`$${keywords[item].section}`}</Typography>} />
+              {keywords[item].required ? '' : <Switch checked={input[item].selected === true} />}
+            </ListItem>,
+            <Collapse key={item + 'Collapse'} in={false} timeout="auto" unmountOnExit>
               <List component="div" disablePadding dense={true}>
-                {Object.keys(keywords[item].properties).map(property => {
-                  return (
-                    <ListItem key={property+'ListItem'} button className={classes.nested}>
-                      <ListItemText
-                        primary={
-                          <Typography variant="body2" color='default'>
-                            {`${property}`}
-                          </Typography>
-                        }
-                      />
-                    </ListItem>
-                  )
-                })}
+                {Object.keys(keywords[item].properties).map(property =>
+                  <ListItem key={property + 'ListItem'} button className={classes.nested}>
+                    <ListItemText primary={<Typography variant="body2" color='default'>{`${property}`}</Typography>} />
+                  </ListItem>
+                )}
               </List>
             </Collapse>
-          )]
-        })}
-      </List>
+          ])}
+        </List>
       </GridPaper>
     );
   }

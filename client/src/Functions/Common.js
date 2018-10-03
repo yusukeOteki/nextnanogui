@@ -1,21 +1,51 @@
 import { keywords } from './Params';
 
 const createInitialInput = () => {
-    let initialInput = {};
+    let input = {};
     for (let key in keywords) {
-        initialInput[key] = JSON.parse(JSON.stringify(keywords[key]));
-        initialInput[key].selected = initialInput[key].required;
-        initialInput[key].list = [JSON.parse(JSON.stringify(initialInput[key]))];
-        for (let i = 0; i < initialInput[key].list.length; i++) {
-            for (let prop in initialInput[key].list[i].properties) {
-                initialInput[key].list[i].properties[prop].selected = initialInput[key].list[i].properties[prop].required;
-                initialInput[key].list[i].properties[prop].value = initialInput[key].list[i].properties[prop].default;
-                if (initialInput[key].list[i].increment && initialInput[key].list[i].increment === prop)
-                    initialInput[key].list[i].properties[prop].value += i;
+        input[key] = JSON.parse(JSON.stringify(keywords[key]));
+        input[key].selected = input[key].required;
+        input[key].list = [JSON.parse(JSON.stringify(input[key]))];
+        for (let i = 0; i < input[key].list.length; i++) {
+            for (let prop in input[key].list[i].properties) {
+                input[key].list[i].properties[prop].selected = input[key].list[i].properties[prop].required;
+                input[key].list[i].properties[prop].value = input[key].list[i].properties[prop].default;
+                if (input[key].list[i].increment && input[key].list[i].increment === prop)
+                    input[key].list[i].properties[prop].value += i;
             }
         }
     }
-    return initialInput;
+    let counter = 0;
+    for (let key in input) {
+        for (let i = 0; i < input[key].list.length; i++) {
+            for (let prop in input[key].list[i].properties) {
+                input[key].list[i].properties[prop].id = counter++;
+            }
+        }
+    }
+    return { input, counter };
+}
+
+const convertJsontoN3 = (json) => {
+    let converted = '';
+    for (let key in json) {
+        if (json[key].selected) {
+            converted += '!********************************************************************************!\n'
+            converted += '$' + json[key].section + '\n'
+            for (let i = 0; i < json[key].list.length; i++) {
+                for (let prop in json[key].list[i].properties) {
+                    if (json[key].list[i].properties[prop].selected) {
+                        let value = json[key].list[i].properties[prop].value
+                        converted += `  ${prop}${' '.repeat(50 - prop.length)}= ${typeof value === 'object' ? value.join(' ') : value.toString()}\n`
+                    }
+                }
+                converted += i === json[key].list.length - 1 ? '' : '\n'
+            }
+            converted += '$end_' + json[key].section + '\n'
+            converted += '!********************************************************************************!\n\n'
+        }
+    }
+    return converted;
 }
 
 const convertN3toJson = (n3) => {
@@ -43,34 +73,55 @@ const convertN3toJson = (n3) => {
                 })
         }
     })
-    let initialInput = createInitialInput();
+    let { input, counter } = createInitialInput();
     for (let i = 0; i < eqSplited.length; i++) {
-        for (let key in initialInput) {
-            if (initialInput[key].section === eqSplited[i].keyword) {
-                initialInput[key].selected = true;
-                let increment = initialInput[key].increment;
+        for (let key in input) {
+            if (input[key].section === eqSplited[i].keyword) {
+                input[key].selected = true;
+                let increment = input[key].increment;
                 let c = increment ? -1 : 0;
                 for (let j = 0; j < eqSplited[i].parameters.length; j++) {
                     if (increment === eqSplited[i].parameters[j][0]) {
                         c++
                         if (c > 0) {
                             let temp = JSON.parse(JSON.stringify(keywords[key]));
-                            initialInput[key].list.push(temp);
+                            input[key].list.push(temp);
                         }
                     }
-                    let isArray = !!initialInput[key].list[c].properties[eqSplited[i].parameters[j][0]].type.match('array');
+                    let isArray = !!input[key].list[c].properties[eqSplited[i].parameters[j][0]].type.match('array');
                     let value = isArray ? eqSplited[i].parameters[j][1].split(' ') : eqSplited[i].parameters[j][1]
-                    initialInput[key].list[c].properties[eqSplited[i].parameters[j][0]].selected = true
-                    initialInput[key].list[c].properties[eqSplited[i].parameters[j][0]].value = value
+                    input[key].list[c].properties[eqSplited[i].parameters[j][0]].selected = true
+                    input[key].list[c].properties[eqSplited[i].parameters[j][0]].value = value
                 }
             }
         }
     }
-    return initialInput;
+    counter = 0;
+    for (let key in input) {
+        for (let i = 0; i < input[key].list.length; i++) {
+            for (let prop in input[key].list[i].properties) {
+                input[key].list[i].properties[prop].id = counter++;
+            }
+        }
+    }
+    return { input, counter };
+}
+
+const getMaxCounter = (file) => {
+    let input = JSON.parse(file);
+    let counter = 1 +
+        Math.max(...Object.keys(input).map(key =>
+            Math.max(...input[key].list.map(item =>
+                Math.max(...Object.keys(item.properties).map(prop =>
+                    item.properties[prop].id
+                ))
+            ))
+        ))
+    return { input, counter };
 }
 
 const convertDatatoDat = (data) => {
-    if(!data.length) return '';
+    if (!data.length) return '';
     let json = [];
     data.list.map(item => {
         item.raw.map(content => {
@@ -111,7 +162,7 @@ const convertDatatoDat = (data) => {
     for (let i = 0; i < xArray.length; i++) {
         for (let j = 0; j < reduced.length; j++) {
             if (xArray[i].toString() === reduced[j].toString()) {
-                if (newTable.length-1 < j) {
+                if (newTable.length - 1 < j) {
                     newTable.push(tables[i]);
                 } else {
                     for (let k = 0; k < tables[i].length; k++) {
@@ -146,4 +197,4 @@ const convertDatatoDat = (data) => {
     return tsv;
 }
 
-export { createInitialInput, convertN3toJson, convertDatatoDat }
+export { createInitialInput, convertJsontoN3, convertN3toJson, getMaxCounter, convertDatatoDat }

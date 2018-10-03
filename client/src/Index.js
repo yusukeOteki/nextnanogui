@@ -1,4 +1,7 @@
 import React from "react";
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+
 import key from 'keymaster'
 
 import AppBar from './Components/AppBar';
@@ -6,31 +9,27 @@ import InputGrid from './Components/Input/InteractiveGrid';
 import OutputGrid from './Components/Output/OutputGrid'
 import Tabs from './Components/Tabs';
 
-import { keywords, keywordsList } from './Functions/Params';
-import { createInitialInput, convertN3toJson, convertDatatoDat } from './Functions/Common';
+import { createInitialInput, convertJsontoN3, convertN3toJson, getMaxCounter, convertDatatoDat } from './Functions/Common';
 
 const { ipcRenderer } = window.require('electron');
 const remote = window.require('electron').remote;
 const { dialog } = window.require('electron').remote;
 
-export default class Index extends React.Component {
+const styles = theme => ({
+  app: {
+    height: '100%'
+  },
+});
+
+class Index extends React.Component {
   constructor(props) {
     super(props);
-    const initialInput = createInitialInput();
-    let counter = 0;
-    for (let key in initialInput) {
-      for (let i = 0; i < initialInput[key].list.length; i++) {
-        for (let prop in initialInput[key].list[i].properties) {
-          initialInput[key].list[i].properties[prop].id = counter++;
-        }
-      }
-    }
-
+    const { input, counter } = createInitialInput();
     this.state = {
-      input: initialInput,
-      jsonfile: JSON.stringify(initialInput),
+      input: input,
+      jsonfile: JSON.stringify(input),
       counter: counter,
-      n3file: "",
+      n3file: convertJsontoN3(input),
       mode: "output",
       output: {},
       data: {},
@@ -46,18 +45,9 @@ export default class Index extends React.Component {
   }
 
   changeFile(type) {
-    if(type === 'inputInitialize'){
-      const initialInput = createInitialInput();
-      let counter = 0;
-      for (let key in initialInput) {
-        for (let i = 0; i < initialInput[key].list.length; i++) {
-          for (let prop in initialInput[key].list[i].properties) {
-            initialInput[key].list[i].properties[prop].id = counter++;
-          }
-        }
-      }
-      this.setState({ input: initialInput, counter });
-    }else if(type === 'outputInitialize'){
+    if (type === 'inputInitialize') {
+      this.setState({ ...createInitialInput() });
+    } else if (type === 'outputInitialize') {
       let options = {
         title: "Open folder",
         properties: ['openDirectory']
@@ -66,10 +56,10 @@ export default class Index extends React.Component {
       dialog.showOpenDialog(options, function (filenames) {
         ipcRenderer.send('mul-async-dialog', filenames);
         ipcRenderer.on('mul-async-dialog-replay', (event, directoryPath, directoryContents, isOutputData) => {
-            that.setState({ output: {directoryPath, directoryContents}, data: [], outputDat: '' });
+          that.setState({ output: { directoryPath, directoryContents }, data: [], outputDat: '' });
         });
       });
-    }else if(type === 'inputUpdate'){
+    } else if (type === 'inputUpdate') {
       let options = {
         title: "Open folder",
         properties: ['openFile'],
@@ -80,31 +70,14 @@ export default class Index extends React.Component {
         ipcRenderer.send('openInputFile', filename);
         ipcRenderer.on('openInputFile-replay', (event, path, content) => {
           if (path.split('.')[path.split('.').length - 1] === "json") {
-            let tempInput = JSON.parse(content);
-            let c = Math.max(...Object.keys(tempInput).map(key =>
-              Math.max(...tempInput[key].list.map(item =>
-                Math.max(...Object.keys(item.properties).map(prop =>
-                  item.properties[prop].id
-                ))
-              ))
-            ))
-            that.setState({ jsonfile: content, input: JSON.parse(content), counter: ++c });
+            that.setState({ jsonfile: content, ...getMaxCounter(content) });
           }
           if (path.split('.')[path.split('.').length - 1] === "in") {
-            let initialInput = convertN3toJson(content);
-            let counter = 0;
-            for (let key in initialInput) {
-              for (let i = 0; i < initialInput[key].list.length; i++) {
-                for (let prop in initialInput[key].list[i].properties) {
-                  initialInput[key].list[i].properties[prop].id = counter++;
-                }
-              }
-            }
-            that.setState({ n3file: content, input: initialInput, counter });
+            that.setState({ n3file: content, ...convertN3toJson(content) });
           }
         });
       });
-    }else if(type === 'outputUpdate'){
+    } else if (type === 'outputUpdate') {
       let options = {
         title: "Open folder",
         properties: ['openFile'],
@@ -118,20 +91,20 @@ export default class Index extends React.Component {
           that.setState({ output: outputData.output, data: outputData.data, outputDat: convertDatatoDat(outputData.data) });
         });
       });
-    }else if(type === 'inputSave'){
+    } else if (type === 'inputSave') {
       let options = {
-       title: "Save  json input file",
-       defaultPath: 'filename.json',
-       filters: [
-         { name: 'nextnano3', extensions: ['json'] },
-       ]
-     };
-     let that = this;
-     dialog.showSaveDialog(options, function (filename) {
-       if (!filename) return false;
-       ipcRenderer.send('saveInputFile', filename, that.state.jsonfile);
-     }); 
-    }else if(type === 'outputSave'){
+        title: "Save  json input file",
+        defaultPath: 'filename.json',
+        filters: [
+          { name: 'nextnano3', extensions: ['json'] },
+        ]
+      };
+      let that = this;
+      dialog.showSaveDialog(options, function (filename) {
+        if (!filename) return false;
+        ipcRenderer.send('saveInputFile', filename, that.state.jsonfile);
+      });
+    } else if (type === 'outputSave') {
       let options = {
         title: "Save json output file",
         defaultPath: 'outputData.json',
@@ -142,9 +115,9 @@ export default class Index extends React.Component {
       let that = this;
       dialog.showSaveDialog(options, function (filename) {
         if (!filename) return false;
-        ipcRenderer.send('saveInputFile', filename, JSON.stringify({output: that.state.output, data: that.state.data}));
-      }); 
-    }else if(type === 'inputExport'){
+        ipcRenderer.send('saveInputFile', filename, JSON.stringify({ output: that.state.output, data: that.state.data }));
+      });
+    } else if (type === 'inputExport') {
       let options = {
         title: "Save nextnano3 input file",
         defaultPath: 'filename.in',
@@ -156,8 +129,8 @@ export default class Index extends React.Component {
       dialog.showSaveDialog(options, function (filename) {
         if (!filename) return false;
         ipcRenderer.send('saveInputFile', filename, that.state.n3file);
-      }); 
-    }else if(type === 'outputExport'){
+      });
+    } else if (type === 'outputExport') {
       let options = {
         title: "Save dat file",
         defaultPath: 'filename.dat',
@@ -176,32 +149,31 @@ export default class Index extends React.Component {
   keyPress(event, handler) {
     let key = handler.key;
     let mode = this.state.mode;
-    console.log(handler.key);
-    if(key === 'ctrl+o'){
-      if(mode === 'input'){
+    if (key === 'ctrl+o') {
+      if (mode === 'input') {
         this.changeFile('inputInitialize');
-      }else if(mode === 'output'){
+      } else if (mode === 'output') {
         this.changeFile('outputInitialize');
       }
-    }else if(key === 'ctrl+i'){
-      if(mode === 'input'){
+    } else if (key === 'ctrl+i') {
+      if (mode === 'input') {
         this.changeFile('inputUpdate');
-      }else if(mode === 'output'){
+      } else if (mode === 'output') {
         this.changeFile('outputUpdate');
       }
-    }else if(key === 'ctrl+s'){
-      if(mode === 'input'){
+    } else if (key === 'ctrl+s') {
+      if (mode === 'input') {
         this.changeFile('inputSave');
-      }else if(mode === 'output'){
+      } else if (mode === 'output') {
         this.changeFile('outputSave');
       }
-    }else if(key === 'ctrl+e'){
-      if(mode === 'input'){
+    } else if (key === 'ctrl+e') {
+      if (mode === 'input') {
         this.changeFile('inputExport');
-      }else if(mode === 'output'){
+      } else if (mode === 'output') {
         this.changeFile('outputExport');
       }
-    }else if(key === 'ctrl+w'){
+    } else if (key === 'ctrl+w') {
       remote.getCurrentWindow();
       window.close();
     }
@@ -209,28 +181,39 @@ export default class Index extends React.Component {
   }
 
   changeData(changedData, type, counter) {
-    if (type === "json") this.setState({ jsonfile: changedData, input: JSON.parse(changedData), counter: counter });
-    if (type === "in") this.setState({ n3file: changedData });
+    this.setState({ 
+      jsonfile: changedData,
+      input: JSON.parse(changedData),
+      n3file: convertJsontoN3(JSON.parse(changedData)),
+      counter: counter
+    });
   }
 
   changeOutputData(output, data) {
     let outputDat = convertDatatoDat(data);
-    this.setState({output, data, outputDat});
+    this.setState({ output, data, outputDat });
   }
 
   _changeMode(mode) {
-    this.setState({ mode: mode });
+    this.setState({ mode });
   }
 
   render() {
+    const { classes } = this.props;
     const { input, output, data, counter, mode } = this.state;
     return (
-      <div className="App" style={{ height: '100%' }}>
+      <div className={classes.app}>
         <AppBar mode={mode} onEventCallBack={this.changeFile} changeMode={this._changeMode} />
-        {mode === "input" && <InputGrid input={input} counter={counter} keywords={keywords} keywordsList={keywordsList} onEventCallBack={this.changeData} />}
-        {mode === "output" && <OutputGrid output={output} data={data} counter={counter} keywords={keywords} keywordsList={keywordsList} onEventCallBack={this.changeOutputData} />}
+        {mode === "input" && <InputGrid input={input} counter={counter} onEventCallBack={this.changeData} />}
+        {mode === "output" && <OutputGrid output={output} data={data} onEventCallBack={this.changeOutputData} />}
         <Tabs />
       </div>
     )
   }
 }
+
+Index.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Index);

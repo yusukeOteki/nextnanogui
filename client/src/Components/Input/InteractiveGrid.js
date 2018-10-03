@@ -17,26 +17,21 @@ const styles = theme => ({
 class InteractiveGrid extends React.Component {
   constructor(props){
     super(props);
-    
     this.changeData = this.changeData.bind(this);
-    this.changeFile = this.changeFile.bind(this);
   }
+  
   changeData (changedInput, counter) {
     this.props.onEventCallBack(JSON.stringify(changedInput), 'json', counter);
   }
 
-  changeFile (changedFile) {
-    this.props.onEventCallBack(changedFile, "in");
-  }
-
   render() {
-    const { classes, input, counter, keywords, keywordsList } = this.props;
+    const { classes, input, counter } = this.props;
     return (
       <Grid container className={classes.root}>
         <Grid item xs={12} container spacing={16} className={classes.demo} alignItems={`flex-start`} direction={`row`} justify={`center`} >
-          <ParametersList keywords={keywords} keywordsList={keywordsList} input={input} xs={3} counter={counter} onEventCallBack={this.changeData} />
-          <ParametersTables keywords={keywords} keywordsList={keywordsList} input={input} counter={counter} xs={5} onEventCallBack={this.changeData} />
-          <ParametersConverted keywords={keywords} keywordsList={keywordsList} input={input} xs={4} onEventCallBack={this.changeFile} />
+          <ParametersList input={input} xs={3} counter={counter} onEventCallBack={this.changeData} />
+          <ParametersTables input={input} counter={counter} xs={5} onEventCallBack={this.changeData} />
+          <ParametersConverted input={input} xs={4} />
         </Grid>
       </Grid>
     );

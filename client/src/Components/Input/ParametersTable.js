@@ -21,6 +21,8 @@ import Add from '@material-ui/icons/AddCircleOutline';
 import Remove from '@material-ui/icons/RemoveCircleOutline';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import { keywords } from '../../Functions/Params';
+
 const actionsStyles = theme => ({
   root: {
     flexShrink: 0,
@@ -169,7 +171,7 @@ class ParametersTable extends React.Component {
     this.state = {
       page: 0,
       maxPage: 0,
-      rowsPerPage: Object.keys(props.keywords[props.data[0][0].keyword].properties).length,
+      rowsPerPage: Object.keys(keywords[props.data[0][0].keyword].properties).length,
       currency: 'EUR',
     };
     this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
@@ -208,7 +210,7 @@ class ParametersTable extends React.Component {
     let tempList = JSON.parse(JSON.stringify(this.props.list)) 
     tempList.map(item => {
       if (item.id === id) {
-        if (!this.props.keywords[item.keyword].properties[item.name].required) {
+        if (!keywords[item.keyword].properties[item.name].required) {
           item.selected = !item.selected;
           this.props.onEventCallBack(item);
         }
@@ -249,7 +251,7 @@ class ParametersTable extends React.Component {
   };
 
   render() {
-    const { classes, list, selected, keyword, keywords } = this.props;
+    const { classes, list, selected, keyword } = this.props;
     const { rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, list.length - page * rowsPerPage);
     return (
