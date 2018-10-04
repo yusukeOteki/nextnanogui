@@ -130,12 +130,10 @@ class ParametersTables extends React.Component {
             return ''
           } else {
             /* this.props.input[item].selected && console.log(item)
-            this.props.input[item].selected && console.log(keywords[item].section)
             this.props.input[item].selected && console.log(this.state.data[item]) */
             return !this.props.input[item].selected ? '' :
               <ParametersTable
                 key={`${item}`}
-                keyword={`${keywords[item].section}`}
                 data={this.state.data[item]}
                 onEventCallBack={this.changeData}
               />
