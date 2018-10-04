@@ -32,15 +32,14 @@ function createList(data) {
 }
 
 function getSelected(data) {
-  const tempSelected = [];
-  for (let i = 0; i < data.length; i++) {
-    for (let j = 0; j < data[i].length; j++) {
+  let tempSelected = [];
+  for(let i = 0; i < data.length; i++){
+    for(let j = 0; j < data[i].length; j++){
       data[i][j].selected && tempSelected.push(data[i][j].id);
     }
   }
   return tempSelected;
 }
-
 const actionsStyles = theme => ({
   root: {
     flexShrink: 0,
@@ -89,28 +88,28 @@ ParametersTableHead.propTypes = {
 
 
 class TablePaginationActions extends React.Component {
-  constructor(props) {
+  constructor(props){
     super(props);
-
+    
     this.handleFirstPageButtonClick = this.handleFirstPageButtonClick.bind(this);
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
     this.handleLastPageButtonClick = this.handleLastPageButtonClick.bind(this);
   }
 
-  handleFirstPageButtonClick(event) {
+  handleFirstPageButtonClick (event)  {
     this.props.onChangePage(event, 0);
   };
 
-  handleBackButtonClick(event) {
+  handleBackButtonClick (event) {
     this.props.onChangePage(event, this.props.page - 1);
   };
 
-  handleNextButtonClick(event) {
+  handleNextButtonClick (event) {
     this.props.onChangePage(event, this.props.page + 1);
   };
 
-  handleLastPageButtonClick(event) {
+  handleLastPageButtonClick (event) {
     this.props.onChangePage(
       event,
       Math.max(0, Math.ceil(this.props.count / this.props.rowsPerPage) - 1),
@@ -189,19 +188,18 @@ class ParametersTable extends React.Component {
       page: 0,
       maxPage: 0,
       rowsPerPage: Object.keys(keywords[props.data[0][0].keyword].properties).length,
-      currency: 'EUR',
     };
-    this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
+    //this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangePage = this.handleChangePage.bind(this);
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
-
+    
     this.handleAddPageButtonClick = this.handleAddPageButtonClick.bind(this);
     this.handleDeletePageButtonClick = this.handleDeletePageButtonClick.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+/*   shouldComponentUpdate(nextProps, nextState) {
     //for(let key in nextProps){
     //  console.log(key, isEqual(nextProps[key], this.props[key]))
     //}
@@ -212,9 +210,9 @@ class ParametersTable extends React.Component {
     //console.log(!(propsDiff && stateDiff))
     return !(propsDiff && stateDiff);
     //return !stateDiff;
-  }
+  } */
 
-  handleClick(event, id) {
+  handleClick (event, id) {
     const tempList = createList(this.props.data);
     tempList.map(item => {
       if (item.id === id) {
@@ -227,7 +225,7 @@ class ParametersTable extends React.Component {
     })
   };
 
-  handleChange(event, id) {
+  handleChange (event, id) {
     const tempList = createList(this.props.data);
     tempList.map(item => {
       if (item.id === id) {
@@ -238,22 +236,22 @@ class ParametersTable extends React.Component {
     })
   };
 
-  handleChangePage(event, page) {
+  handleChangePage (event, page) {
     this.setState({ page });
   };
 
-  handleChangeRowsPerPage(event) {
+  handleChangeRowsPerPage (event) {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  handleAddPageButtonClick(event, data, page) {
+  handleAddPageButtonClick (event, data, page) {
     this.props.onEventCallBack(data[0].keyword, 'add');
-    let maxPage = this.state.maxPage + 1;
+    let maxPage = this.state.maxPage+1;
     this.setState({ page: maxPage, maxPage: maxPage });
   };
 
-  handleDeletePageButtonClick(event, data, page) {
-    let maxPage = this.state.maxPage ? this.state.maxPage - 1 : 0;
+  handleDeletePageButtonClick (event, data, page) {
+    let maxPage = this.state.maxPage ? this.state.maxPage-1 : 0;
     this.setState({ maxPage: maxPage });
     this.props.onEventCallBack({ keyword: data[0].keyword, page }, 'delete');
   };
@@ -263,7 +261,7 @@ class ParametersTable extends React.Component {
     const { rowsPerPage, page } = this.state;
     const list = createList(data);
     const selected = getSelected(data);
-    const keyword = `${keywords[data[0][0].keyword].section}`;
+    const keyword = keywords[data[0][0].keyword].section;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, list.length - page * rowsPerPage);
     return (
       <Paper className={classes.root}>
@@ -293,7 +291,7 @@ class ParametersTable extends React.Component {
                           select
                           value={typeof n.value === 'object' ? n.value.join(' ') : n.value.toString()}
                           onChange={e => this.handleChange(e, n.id)}
-                          SelectProps={{ MenuProps: { className: classes.menu } }}
+                          SelectProps={{MenuProps: {className: classes.menu } }}
                         >
                           {keywords[n.keyword].properties[n.name].choices.map(option => (
                             <MenuItem key={option} value={typeof option === 'object' ? option.join(' ') : option.toString()}>

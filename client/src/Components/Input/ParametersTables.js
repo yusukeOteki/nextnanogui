@@ -10,7 +10,7 @@ import ParametersTable from './ParametersTable'
 /* Table */
 const styles = theme => ({
   root: {
-    height:"100%"
+    height: "100%"
   },
   table: {
     //minWidth: 1020,
@@ -48,34 +48,14 @@ function arrangeData(input) {
 
     }
   }
-
-  let selected = [];
-  for (let prop in data) {
-    selected[prop] = [];
-    for (let i = 0; i < data[prop].length; i++) {
-      for (let j = 0; j < data[prop][i].length; j++) {
-        if (data[prop][i][j].selected) {
-          selected[prop].push(data[prop][i][j].id)
-        }
-      }
-    }
-  }
-  let list = [];
-  for (let prop in data) {
-    list[prop] = [];
-    for (let i = 0; i < data[prop].length; i++) {
-      Array.prototype.push.apply(list[prop], data[prop][i]);
-    }
-  }
-
-  return {data, selected, list};
+  return { data };
 }
 
 class ParametersTables extends React.Component {
   constructor(props) {
     super(props);
     this.state = { ...arrangeData(props.input) };
-    
+
     this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.changeData = this.changeData.bind(this);
   }
@@ -84,20 +64,20 @@ class ParametersTables extends React.Component {
     this.setState({ ...arrangeData(nextProps.input) });
   }
 
-/*   shouldComponentUpdate(nextProps, nextState) {
-    for(let key in nextProps){
-      console.log(key, isEqual(nextProps[key], this.props[key]))
-    }
-    //const propsDiff = isEqual(nextProps, this.props);
-    const stateDiff = isEqual(nextState, this.state);
-    //console.log("propsDiff", propsDiff)
-    //console.log("stateDiff", stateDiff)
-    //console.log(!(propsDiff && stateDiff))
-    //return !(propsDiff && stateDiff);
-    return !stateDiff;
-  } */
+  /*   shouldComponentUpdate(nextProps, nextState) {
+      for(let key in nextProps){
+        console.log(key, isEqual(nextProps[key], this.props[key]))
+      }
+      //const propsDiff = isEqual(nextProps, this.props);
+      const stateDiff = isEqual(nextState, this.state);
+      //console.log("propsDiff", propsDiff)
+      //console.log("stateDiff", stateDiff)
+      //console.log(!(propsDiff && stateDiff))
+      //return !(propsDiff && stateDiff);
+      return !stateDiff;
+    } */
 
-  changeData (changedItem, type) {
+  changeData(changedItem, type) {
     let tempInput = Object.assign({}, this.props.input);
     let counter = this.props.counter;
     if (type === 'add') {
@@ -110,8 +90,8 @@ class ParametersTables extends React.Component {
       temp.properties[temp.increment].value = tempInput[changedItem].list[tempInput[changedItem].list.length - 1].properties[temp.increment].value + 1;
       temp.selected = true;
       tempInput[changedItem].list.push(temp);
-    } else if(type === 'delete') {
-      if(!(tempInput[changedItem.keyword].list.length<=1)){
+    } else if (type === 'delete') {
+      if (!(tempInput[changedItem.keyword].list.length <= 1)) {
         tempInput[changedItem.keyword].list.splice(changedItem.page, 1);
       }
     } else {
@@ -122,23 +102,13 @@ class ParametersTables extends React.Component {
   }
 
   render() {
+    const { xs, input } = this.props;
+    const { data  } = this.state;
     return (
-      <GridPaper xs={this.props.xs}>
-        {keywordsList.map(item => {
-          console.log()
-          if (!this.state.data[item]) {
-            return ''
-          } else {
-            /* this.props.input[item].selected && console.log(item)
-            this.props.input[item].selected && console.log(this.state.data[item]) */
-            return !this.props.input[item].selected ? '' :
-              <ParametersTable
-                key={`${item}`}
-                data={this.state.data[item]}
-                onEventCallBack={this.changeData}
-              />
-          }
-        })}
+      <GridPaper xs={xs}>
+        {keywordsList.map(item => !(data[item] && input[item].selected) ? '' :
+          <ParametersTable key={`${item}`} data={data[item]} onEventCallBack={this.changeData} />
+        )}
       </GridPaper>
     );
   }
