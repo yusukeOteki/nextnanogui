@@ -20,117 +20,68 @@ const styles = theme => ({
   },
 });
 
-//let counter = 0;
 function createData(id, name, value, selected, keyword, listNumber, listLength) {
   return { id, name, value, selected, keyword, listNumber, listLength };
 }
+
+function arrangeData(input) {
+  let data = {};
+  for (let i = 0; i < keywordsList.length; i++) {
+    if (input[keywordsList[i]].selected) {
+      data[keywordsList[i]] = [];
+      for (let j = 0; j < input[keywordsList[i]].list.length; j++) {
+        data[keywordsList[i]].push([])
+        for (let prop in input[keywordsList[i]].list[j].properties) {
+          data[keywordsList[i]][j].push(
+            createData(
+              input[keywordsList[i]].list[j].properties[prop].id,
+              prop,
+              input[keywordsList[i]].list[j].properties[prop].value,
+              input[keywordsList[i]].list[j].properties[prop].selected,
+              keywordsList[i],
+              j,
+              input[keywordsList[i]].list.length
+            )
+          )
+        }
+      }
+
+    }
+  }
+
+  let selected = [];
+  for (let prop in data) {
+    selected[prop] = [];
+    for (let i = 0; i < data[prop].length; i++) {
+      for (let j = 0; j < data[prop][i].length; j++) {
+        if (data[prop][i][j].selected) {
+          selected[prop].push(data[prop][i][j].id)
+        }
+      }
+    }
+  }
+  let list = [];
+  for (let prop in data) {
+    list[prop] = [];
+    for (let i = 0; i < data[prop].length; i++) {
+      Array.prototype.push.apply(list[prop], data[prop][i]);
+    }
+  }
+
+  return {data, selected, list};
+}
+
 class ParametersTables extends React.Component {
   constructor(props) {
     super(props);
-    /* Data */
-    let data = {};
-    for (let i = 0; i < keywordsList.length; i++) {
-      if (props.input[keywordsList[i]].selected) {
-        data[keywordsList[i]] = [];
-        for (let j = 0; j < props.input[keywordsList[i]].list.length; j++) {
-          data[keywordsList[i]].push([])
-          for (let prop in props.input[keywordsList[i]].list[j].properties) {
-            data[keywordsList[i]][j].push(
-              createData(
-                props.input[keywordsList[i]].list[j].properties[prop].id,
-                prop,
-                props.input[keywordsList[i]].list[j].properties[prop].value,
-                props.input[keywordsList[i]].list[j].properties[prop].selected,
-                keywordsList[i],
-                j,
-                props.input[keywordsList[i]].list.length
-              )
-            )
-          }
-        }
-
-      }
-    }
-
-    let selected = [];
-    for (let prop in data) {
-      selected[prop] = [];
-      for (let i = 0; i < data[prop].length; i++) {
-        for (let j = 0; j < data[prop][i].length; j++) {
-          if (data[prop][i][j].selected) {
-            selected[prop].push(data[prop][i][j].id)
-          }
-        }
-      }
-    }
-    let list = [];
-    for (let prop in data) {
-      list[prop] = [];
-      for (let i = 0; i < data[prop].length; i++) {
-        Array.prototype.push.apply(list[prop], data[prop][i]);
-      }
-    }
-
-    this.state = {
-      data: data,
-      selected: selected,
-      list: list,
-    };
+    this.state = { ...arrangeData(props.input) };
     
     this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.changeData = this.changeData.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    //counter = 0;
-    let data = {};
-    const { input } = this.props;
-    for (let i = 0; i < keywordsList.length; i++) {
-      if (input[keywordsList[i]].selected) {
-        data[keywordsList[i]] = [];
-        for (let j = 0; j < input[keywordsList[i]].list.length; j++) {
-          data[keywordsList[i]].push([])
-          for (let prop in input[keywordsList[i]].list[j].properties) {
-            data[keywordsList[i]][j].push(
-              createData(
-                input[keywordsList[i]].list[j].properties[prop].id,
-                prop,
-                input[keywordsList[i]].list[j].properties[prop].value,
-                input[keywordsList[i]].list[j].properties[prop].selected,
-                keywordsList[i],
-                j,
-                input[keywordsList[i]].list.length
-              )
-            )
-          }
-        }
-      }
-    }
-
-    let selected = [];
-    for (let prop in data) {
-      selected[prop] = [];
-      for (let i = 0; i < data[prop].length; i++) {
-        for (let j = 0; j < data[prop][i].length; j++) {
-          if (data[prop][i][j].selected) {
-            selected[prop].push(data[prop][i][j].id)
-          }
-        }
-      }
-    }
-
-    let list = [];
-    for (let prop in data) {
-      list[prop] = [];
-      for (let i = 0; i < data[prop].length; i++) {
-        Array.prototype.push.apply(list[prop], data[prop][i]);
-      }
-    }
-    this.setState({
-      data: data,
-      selected: selected,
-      list: list,
-    });
+    this.setState({ ...arrangeData(nextProps.input) });
   }
 
 /*   shouldComponentUpdate(nextProps, nextState) {
@@ -174,17 +125,19 @@ class ParametersTables extends React.Component {
     return (
       <GridPaper xs={this.props.xs}>
         {keywordsList.map(item => {
+          console.log()
           if (!this.state.data[item]) {
             return ''
           } else {
+            /* this.props.input[item].selected && console.log(item)
+            this.props.input[item].selected && console.log(keywords[item].section)
+            this.props.input[item].selected && console.log(this.state.data[item]) */
             return !this.props.input[item].selected ? '' :
               <ParametersTable
                 key={`${item}`}
                 keyword={`${keywords[item].section}`}
                 data={this.state.data[item]}
                 onEventCallBack={this.changeData}
-                selected={this.state.selected[item]}
-                list={this.state.list[item]}
               />
           }
         })}

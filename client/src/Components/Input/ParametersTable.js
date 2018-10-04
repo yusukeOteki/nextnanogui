@@ -23,6 +23,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import { keywords } from '../../Functions/Params';
 
+function createList(data) {
+  let tempList = []
+  for (let i = 0; i < data.length; i++) {
+    Array.prototype.push.apply(tempList, data[i]);
+  }
+  return tempList;
+}
+
 const actionsStyles = theme => ({
   root: {
     flexShrink: 0,
@@ -207,7 +215,7 @@ class ParametersTable extends React.Component {
   };
 
   handleClick (event, id) {
-    let tempList = JSON.parse(JSON.stringify(this.props.list)) 
+    const tempList = createList(this.props.data);
     tempList.map(item => {
       if (item.id === id) {
         if (!keywords[item.keyword].properties[item.name].required) {
@@ -220,7 +228,7 @@ class ParametersTable extends React.Component {
   };
 
   handleChange (event, id) {
-    let tempList = JSON.parse(JSON.stringify(this.props.list)) 
+    const tempList = createList(this.props.data);
     tempList.map(item => {
       if (item.id === id) {
         item.value = event.target.value;
@@ -251,8 +259,15 @@ class ParametersTable extends React.Component {
   };
 
   render() {
-    const { classes, list, selected, keyword } = this.props;
+    const { classes, data, keyword } = this.props;
     const { rowsPerPage, page } = this.state;
+    const list = createList(data);
+    const selected = [];
+    for(let i = 0; i < data.length; i++){
+      for(let j = 0; j < data[i].length; j++){
+        data[i][j].selected && selected.push(data[i][j].id);
+      }
+    }
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, list.length - page * rowsPerPage);
     return (
       <Paper className={classes.root}>

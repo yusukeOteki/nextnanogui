@@ -28,7 +28,7 @@ class InteractiveGrid extends React.Component {
     const { classes, input, counter } = this.props;
     return (
       <Grid container className={classes.root}>
-        <Grid item xs={12} container spacing={16} className={classes.demo} alignItems={`flex-start`} direction={`row`} justify={`center`} >
+        <Grid item xs={12} container spacing={16} className={classes.row} alignItems={`flex-start`} direction={`row`} justify={`center`} >
           <ParametersList input={input} xs={3} counter={counter} onEventCallBack={this.changeData} />
           <ParametersTables input={input} counter={counter} xs={5} onEventCallBack={this.changeData} />
           <ParametersConverted input={input} xs={4} />
